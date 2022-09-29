@@ -1,11 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import { View, TextInput, Pressable } from "react-native";
 import CustomText from "../components/CustomText";
 import { AppStore } from "../stores/appStore";
 
 const Settings = () => {
-  const {state, dispatch} = React.useContext(AppStore);
+  const {state, dispatch} = useContext(AppStore);
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
