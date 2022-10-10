@@ -8,6 +8,7 @@ const initialState = {
   exerciseTypeList: [] as any[],
   equipmentTypeList: [] as any[],
   workoutList: [] as any[],
+  sessionList: [] as any[],
   email: null as null | string,
   userToken: null as null | string,
   currentPage: "home",
@@ -33,10 +34,25 @@ function Reducer(state: typeof initialState, action: ReducerAction): typeof init
         ...state,
         exerciseList: action.payload,
       };
+    case "setExerciseTypeList":
+      return {
+        ...state,
+        exerciseTypeList: action.payload,
+      };
+      case "setEquipmentTypeList":
+        return {
+          ...state,
+          equipmentTypeList: action.payload,
+        };
     case "setWorkoutList":
       return {
         ...state,
         workoutList: action.payload,
+      };
+    case "setSessionList":
+      return {
+        ...state,
+        sessionList: action.payload,
       };
     case "setCurrentPage":
       return {
@@ -65,10 +81,11 @@ export const AppContextProvider = (props: ProviderProps) => {
             async (result) => {
               //   context.email.set(result.email);
               innerDispatch({ name: "setUserToken", payload: result.token });
+              innerDispatch({ name: "setEmail", payload: result.email });
               //   context.userToken.set(result.token);
               try {
                 await AsyncStorage.setItem("user_token", result.token);
-                // await AsyncStorage.setItem("user_email", email);
+                await AsyncStorage.setItem("user_email", result.email);
               } catch (e) {
                 console.log(e);
               }
@@ -78,6 +95,52 @@ export const AppContextProvider = (props: ProviderProps) => {
             }
           );
         break;
+      case "asyncLogoutUser":
+        try {
+          AsyncStorage.removeItem("user_token");
+          AsyncStorage.removeItem("user_email");
+          innerDispatch({ name: "setUserToken", payload: null });
+          innerDispatch({ name: "setEmail", payload: null });
+        } catch (e) {
+          console.log(e);
+        }
+        break;
+
+      case "asyncSetPage":
+        try {
+          AsyncStorage.setItem("last_page", action.payload);
+        } catch (e) {
+          console.log(e);
+        }
+        break;
+      case "getAllExerciseTypes":
+        getJSONFetch("http://192.168.0.186:8000/webapp/exercisetypes/", action.payload)
+          .then((res) => {
+            return res.json();
+          })
+          .then(
+            (result) => {
+              innerDispatch({ name: "setExerciseTypeList", payload: result.all_exercise_types });
+            },
+            (error) => {
+              console.log(error.message);
+            }
+          );
+        break;
+        case "getAllEquipmentTypes":
+          getJSONFetch("http://192.168.0.186:8000/webapp/equipmenttypes/", action.payload)
+            .then((res) => {
+              return res.json();
+            })
+            .then(
+              (result) => {
+                innerDispatch({ name: "setEquipmentTypeList", payload: result.all_equipment_types });
+              },
+              (error) => {
+                console.log(error.message);
+              }
+            );
+          break;
       case "getAllExercises":
         getJSONFetch("http://192.168.0.186:8000/webapp/exercises/", action.payload)
           .then((res) => {
@@ -91,7 +154,7 @@ export const AppContextProvider = (props: ProviderProps) => {
               console.log(error.message);
             }
           );
-          break;
+        break;
       case "getAllWorkouts":
         getJSONFetch("http://192.168.0.186:8000/webapp/workouts/", action.payload)
           .then((res) => {
@@ -105,6 +168,21 @@ export const AppContextProvider = (props: ProviderProps) => {
               console.log(error.message);
             }
           );
+        break;
+      case "getAllSessions":
+        getJSONFetch("http://192.168.0.186:8000/webapp/sessions/", action.payload)
+          .then((res) => {
+            return res.json();
+          })
+          .then(
+            (result) => {
+              innerDispatch({ name: "setSessionList", payload: result.scheduled_sessions });
+            },
+            (error) => {
+              console.log(error.message);
+            }
+          );
+        break;
       default:
         innerDispatch(action);
     }

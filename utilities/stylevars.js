@@ -1,3 +1,5 @@
+import { StyleSheet } from "react-native";
+
 const goldColor = "#D58A24";
 const redColor = "#BA1B10";
 const greenColor = "#525B2C";
@@ -6,11 +8,20 @@ const lightBeigeColor = "#F9EDDC";
 const grayColor = "#D6D6D6";
 const offWhite = "#FCF6EE";
 
-const colors = { goldColor, redColor, greenColor, beigeColor, lightBeigeColor, grayColor, offWhite };
+export const colors = { goldColor, redColor, greenColor, beigeColor, lightBeigeColor, grayColor, offWhite };
 
-const leftFlexColumn = {
+export const leftFlexColumn = {
   flexDirection: "column",
   justifyContent: "flex-start",
 };
 
-export { colors, leftFlexColumn };
+export const universalStyles = StyleSheet.create({
+  page: {
+    width: "100%",
+    height: "100%",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    backgroundColor: "#EEECE8",
+  },
+});

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Home from "./pages/Home";
 import Agenda from "./pages/Agenda";
@@ -17,7 +17,6 @@ const AppInner = () => {
     try {
       const token = await AsyncStorage.getItem("user_token");
       const email = await AsyncStorage.getItem("user_email");
-      const lastPage = await AsyncStorage.getItem("last_page");
 
       if (token) {
         dispatch({ name: "setUserToken", payload: token });
@@ -25,18 +24,39 @@ const AppInner = () => {
       if (email) {
         dispatch({ name: "setEmail", payload: email });
       }
-
-      // if (lastPage) {
-      //   context.currentPage.set(lastPage);
-      // }
     } catch (e) {
       console.log(e);
     }
   };
 
+  const getLastPage = async () => {
+    try {
+      const lastPage = await AsyncStorage.getItem("last_page");
+      if (lastPage) {
+        dispatch({ name: "setCurrentPage", payload: lastPage });
+        setPage(lastPage)
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   const [userDataLoaded, setUserDataLoaded] = useState(false);
 
   const [page, setPage] = useState("home");
+
+  const navigateToPage = async (page: string) => {
+    setPage(page)
+    dispatch({name: "asyncSetPage", payload: page})
+  }
+
+  const getAllBackendData = () => {
+    dispatch({ name: "getAllExercises", payload: { user_token: state.userToken } });
+    dispatch({ name: "getAllWorkouts", payload: { user_token: state.userToken } });
+    dispatch({ name: "getAllExerciseTypes", payload: { user_token: state.userToken } });
+    dispatch({ name: "getAllSessions", payload: { user_token: state.userToken } });
+  }
+
 
   const navOptions: NavOption[] = [
     { name: "agenda", iconName: "calendar-today", iconProvider: "MaterialCommunityIcons" },
@@ -50,13 +70,13 @@ const AppInner = () => {
   // }, [context.exerciseList])
 
   React.useEffect(() => {
+    getLastPage()
     if (state.userToken == null) {
       getSecureStoreInfo();
     } else {
       if (!userDataLoaded) {
         setUserDataLoaded(true);
-        dispatch({ name: "getAllExercises", payload: { user_token: state.userToken } });
-        dispatch({ name: "getAllWorkouts", payload: { user_token: state.userToken } });
+        getAllBackendData()
       }
     }
   }, [userDataLoaded, state.userToken]);
@@ -80,7 +100,7 @@ const AppInner = () => {
         {page === "settings" && <Settings />}
       </View>
       <View style={styles.footer}>
-        <Footer navOptions={navOptions} buttonOnClick={setPage} activePage={page} />
+        <Footer navOptions={navOptions} buttonOnClick={navigateToPage} activePage={page} />
       </View>
     </View>
   );
@@ -117,6 +137,7 @@ const styles = StyleSheet.create({
   body: {
     flexGrow: 1,
     flexShrink: 1,
+    width: "100%",
   },
   footer: {
     flexGrow: 0,
