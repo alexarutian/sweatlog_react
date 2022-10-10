@@ -2,22 +2,16 @@ import React from "react";
 import {View} from "react-native";
 import CustomText from "../components/CustomText";
 import { AppStore } from "../stores/appStore";
+import { Workout } from "../stores/types";
 
- 
-type Workout = {
-  name: string,
-  id: number,
-  blocks?: []
-}
 
 const Workouts = () => {
   const {state, dispatch} = React.useContext(AppStore);
-  const workoutList: Workout[] = state.workoutList
 
     return (          
     <View>
         <CustomText bold>Workouts</CustomText>
-        {workoutList.map((workout: Workout, idx: number) => (
+        {state.workoutList.map((workout: Workout, idx: number) => (
           <CustomText key={idx}>{workout.name}</CustomText>
         ))}
 

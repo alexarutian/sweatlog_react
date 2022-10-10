@@ -1,27 +1,51 @@
 import React from "react";
-import {View} from "react-native";
+import { View, Pressable, StyleSheet } from "react-native";
 import CustomText from "../components/CustomText";
 import { AppStore } from "../stores/appStore";
- 
-type Exercise = {
-  name: string,
-  id: number,
-  description: string
-}
+import { Exercise } from "../stores/types";
+import { universalStyles } from "../utilities/stylevars";
 
 const Exercises = () => {
-  const {state, dispatch} = React.useContext(AppStore);
-  const exerciseList: Exercise[] = state.exerciseList
+  const { state, dispatch } = React.useContext(AppStore);
 
-    return (          
-    <View>
-        <CustomText bold>Exercises:</CustomText>
-        <View>
-        {exerciseList.map((exercise: Exercise, idx: number) => (
-          <CustomText key={idx}>{exercise.name}</CustomText>
+  const [selectedExercise, setSelectedExercise] = React.useState<Exercise>();
+
+  return (
+    <View style={universalStyles.page}>
+      <CustomText bold>Exercises</CustomText>
+      <View style={styles.exerciseList}>
+        {state.exerciseList.map((exercise: Exercise, idx: number) => (
+          <View key={idx} style={styles.exerciseItem}>
+            <Pressable
+              onPress={() => {
+                if (exercise == selectedExercise) {
+                  setSelectedExercise(undefined);
+                } else {
+                  setSelectedExercise(exercise);
+                }
+              }}
+            >
+              <CustomText fontSize={exercise == selectedExercise ? 16 : 14}>{exercise.name}</CustomText>
+            </Pressable>
+            {exercise == selectedExercise && (
+              <>
+                <CustomText color={"gray"}>{exercise.description}</CustomText>
+                <CustomText color={"gray"}>{exercise.exercise_type?.name}</CustomText>
+                <CustomText color={"gray"}>{exercise.equipment_type?.name}</CustomText>
+                <View style={styles.dividingLine}></View>
+              </>
+            )}
+          </View>
         ))}
-        </View>
-      </View>)
-}
+      </View>
+    </View>
+  );
+};
 
-export default Exercises
+const styles = StyleSheet.create({
+  exerciseList: { width: "100%", alignItems: "flex-start"},
+  exerciseItem: { flexDirection: "column", justifyContent: "flex-start", width: "100%", margin: 5 },
+  dividingLine: { width: "100%", height: 1, backgroundColor: "gray" },
+});
+
+export default Exercises;
