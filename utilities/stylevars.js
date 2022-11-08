@@ -22,6 +22,6 @@ export const universalStyles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: "#EEECE8",
+    backgroundColor: "#F7F7F7",
   },
 });

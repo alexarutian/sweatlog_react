@@ -23,7 +23,7 @@ const makeStyles = (buttonColor: string) => {
   return StyleSheet.create({
     button: {
       backgroundColor: buttonColor,
-      minWidth: 100,
+      minWidth: 73,
       height: 30,
       flexDirection: "row",
       justifyContent: "center",
