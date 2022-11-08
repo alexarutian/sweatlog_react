@@ -32,13 +32,13 @@ type BlockExercise = {
   block: Block;
   exercise: Exercise;
   exercise_order: number;
-  stat: Stat;
+  stats: Stat;
 };
 
 export type Stat = {
   sets: number;
   reps: number;
-  weight_in_lb?: number;
+  weight_lb?: number;
   time_in_seconds?: number;
 };
 
