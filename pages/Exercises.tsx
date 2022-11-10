@@ -98,39 +98,43 @@ const Exercises = () => {
     </View>,
   ];
 
-  return (
-    <View style={universalStyles.page}>
-      <Gap height={20} />
-      <View style={styles.exerciseList}>
-        {state.exerciseList.map((exercise: Exercise, idx: number) => (
-          <View key={idx} style={styles.exerciseItem}>
-            <Pressable
-              onPress={() => {
-                if (exercise == selectedExercise) {
-                  setSelectedExercise(undefined);
-                } else {
-                  setSelectedExercise(exercise);
-                }
-              }}
-            >
-              <CustomText
-                color={"#3C493F"}
-                bold={exercise == selectedExercise ? true : false}
-                fontSize={exercise == selectedExercise ? 16 : 14}
+  if (!state.exerciseLoaded) {
+    return null;
+  } else {
+    return (
+      <View style={universalStyles.page}>
+        <Gap height={20} />
+        <View style={styles.exerciseList}>
+          {state.exerciseLookup.list.map((exercise: Exercise, idx: number) => (
+            <View key={idx} style={styles.exerciseItem}>
+              <Pressable
+                onPress={() => {
+                  if (exercise == selectedExercise) {
+                    setSelectedExercise(undefined);
+                  } else {
+                    setSelectedExercise(exercise);
+                  }
+                }}
               >
-                {exercise.name}
-              </CustomText>
-            </Pressable>
-          </View>
-        ))}
+                <CustomText
+                  color={"#3C493F"}
+                  bold={exercise == selectedExercise ? true : false}
+                  fontSize={exercise == selectedExercise ? 16 : 14}
+                >
+                  {exercise.name}
+                </CustomText>
+              </Pressable>
+            </View>
+          ))}
+        </View>
+        <IndexCard
+          cardStyle={{ position: "absolute", bottom: 10 }}
+          title={selectedExerciseTitle}
+          rows={selectedExerciseDetails}
+        />
       </View>
-      <IndexCard
-        cardStyle={{ position: "absolute", bottom: 10 }}
-        title={selectedExerciseTitle}
-        rows={selectedExerciseDetails}
-      />
-    </View>
-  );
+    );
+  }
 };
 
 const styles = StyleSheet.create({

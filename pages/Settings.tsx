@@ -34,16 +34,18 @@ const Settings = () => {
   };
 
   // TEMPORARY FIX - add this to the appStore or another store
-  const refreshAllData = () => {
-    dispatch({ name: "getAllExercises", payload: { user_token: state.userToken } });
-    dispatch({ name: "getAllWorkouts", payload: { user_token: state.userToken } });
-    dispatch({ name: "getAllExerciseTypes", payload: { user_token: state.userToken } });
-    dispatch({ name: "getAllSessions", payload: { user_token: state.userToken } });
-  };
+  // const refreshAllData = () => {
+  //   dispatch({ name: "getAllExerciseTypes", payload: { user_token: state.userToken } });
+  //   dispatch({ name: "getAllEquipmentTypes", payload: { user_token: state.userToken } });
+
+  //   dispatch({ name: "getAllExercises", payload: { user_token: state.userToken }, user: state.userId });
+  //   dispatch({ name: "getAllWorkouts", payload: { user_token: state.userToken }, user: state.userId });
+  //   dispatch({ name: "getAllSessions", payload: { user_token: state.userToken }, user: state.userId });
+  //   dispatch({ name: "getAllBlocks", payload: { user_token: state.userToken }, user: state.userId });
+  // };
 
   const ExerciseTypesPage = () => {
-
-    console.log(state.exerciseTypeList)
+    console.log(state.exerciseTypeList);
 
     return (
       <View style={universalStyles.page}>
@@ -75,7 +77,10 @@ const Settings = () => {
     );
   };
 
-  if (settingsPage == "main")
+  if (settingsPage == "exerciseTypes") return <ExerciseTypesPage />;
+  if (settingsPage == "equipmentTypes") return <EquipmentTypesPage />;
+  // if (settingsPage == "main")
+  else {
     return (
       <View style={universalStyles.page}>
         <Gap height={10} />
@@ -130,6 +135,7 @@ const Settings = () => {
               <>
                 <CustomText>
                   You are currently logged in as <CustomText bold>{state.email}</CustomText>
+                  Your user id is {state.userId}
                 </CustomText>
                 <Gap height={10} />
                 <CustomButton onPress={logout} style={{ width: 100 }}>
@@ -149,8 +155,7 @@ const Settings = () => {
         </View>
       </View>
     );
-  if (settingsPage == "exerciseTypes") return <ExerciseTypesPage />;
-  if (settingsPage == "equipmentTypes") return <EquipmentTypesPage />;
+  }
 };
 
 const styles = StyleSheet.create({

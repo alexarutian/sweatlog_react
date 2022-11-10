@@ -13,21 +13,21 @@ const Agenda = () => {
   const sessionList: Session[] = state.sessionList;
   const [agendaDates, setAgendaDates] = React.useState([""]);
 
-  const findAllDates = () => {
-    let dateList: string[] = [];
-    for (let s of sessionList) {
-      if (!dateList.includes(s.date)) {
-        dateList.push(s.date);
-      }
-    }
-    dateList.sort();
-    setAgendaDates(dateList);
-    return;
-  };
+  // const findAllDates = () => {
+  //   let dateList: string[] = [];
+  //   for (let s of sessionList) {
+  //     if (!dateList.includes(s.date)) {
+  //       dateList.push(s.date);
+  //     }
+  //   }
+  //   dateList.sort();
+  //   setAgendaDates(dateList);
+  //   return;
+  // };
 
-  useEffect(() => {
-    findAllDates();
-  }, [sessionList]);
+  // useEffect(() => {
+  //   findAllDates();
+  // }, [sessionList]);
 
   return (
     <View style={universalStyles.page}>
@@ -39,7 +39,7 @@ const Agenda = () => {
               {date}
             </CustomText>
             <View style={styles.redDividingLine}></View>
-            {state.sessionList.map(
+            {/* {state.sessionList.map(
               (session: Session, idx) =>
                 session.date == date && (
                   <>
@@ -67,7 +67,7 @@ const Agenda = () => {
                     {idx < (state.sessionList.length - 1) && <View style={styles.dividingLine}></View>}
                   </>
                 )
-            )}
+            )} */}
           </View>
         ))}
     </View>

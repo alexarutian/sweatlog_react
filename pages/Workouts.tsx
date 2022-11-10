@@ -10,20 +10,17 @@ import { universalStyles } from "../utilities/stylevars";
 
 const Workouts = () => {
   const { state, dispatch } = React.useContext(AppStore);
-
-  console.log(state.workoutList);
-
-  return (
+  if (state.workoutLoaded) return (
     <View style={universalStyles.page}>
       <Gap height={20} />
       <View style={{ width: "100%", alignItems: "flex-start" }}>
-        {state.workoutList.map((workout: Workout, idx: number) => (
+        {state.workoutLookup.list.map((workout: Workout, idx: number) => (
           <>
-            {/* <CustomText key={idx}>{workout.name}</CustomText> */}
             <IndexCard
               key={idx}
               title={workout.name}
               titleStyle={{textTransform: "uppercase", fontSize: 14 }}
+              // rows={[<></>]}
               rows={workout.blocks.map((block, bidx) =>
                 block.block.exercises.map((exercise, eidx) => (
                   <View
