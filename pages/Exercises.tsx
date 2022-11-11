@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Pressable, StyleSheet } from "react-native";
 import CustomIcon from "../components/CustomIcon";
 import CustomText from "../components/CustomText";
@@ -13,12 +13,19 @@ const Exercises = () => {
 
   const [selectedExercise, setSelectedExercise] = React.useState<Exercise>();
 
+  // sets initial value to detailed exercise view
+  useEffect(() => {
+    if (state.exerciseLookup.list !== undefined) {
+      setSelectedExercise(state.exerciseLookup.list[0])
+    }
+  }, [state.exerciseLookup.list])
+
   const selectedExerciseTitle = (
     <View style={{ flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-start", padding: 5 }}>
       <CustomText bold style={{ textTransform: "uppercase", padding: 5 }}>
         {selectedExercise?.name || "TITLE"}
       </CustomText>
-      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flexStart" }}>
+      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start"}}>
         <View
           style={{
             height: 21,
