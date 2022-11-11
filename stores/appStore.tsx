@@ -16,17 +16,11 @@ import {
 } from "./types";
 
 const initialState = {
-  exerciseList: [] as any[],
-  exerciseLookup: {} as Lookup<Exercise>,
   exerciseTypeLookup: {} as Lookup<ExerciseType>,
   equipmentTypeLookup: {} as Lookup<EquipmentType>,
-  exerciseTypeList: [] as any[],
-  equipmentTypeList: [] as any[],
-  usableBlockList: [] as any[],
+  exerciseLookup: {} as Lookup<Exercise>,
   blockLookup: {} as Lookup<Block>,
-  blockList: [] as any[],
   workoutLookup: {} as Lookup<Workout>,
-  workoutList: [] as any[],
   sessionList: [] as any[],
   email: null as null | string,
   userToken: null as null | string,
@@ -35,7 +29,6 @@ const initialState = {
   statusCode: null as null | string,
   error: null as null | string,
   userError: null as null | string,
-  loadedFromServer: [] as string[],
   exerciseTypeLoaded: false,
   equipmentTypeLoaded: false,
   exerciseLoaded: false,
@@ -60,27 +53,11 @@ function Reducer(state: typeof initialState, action: ReducerAction): typeof init
         userId: null,
         userToken: null,
       };
-    case "setExerciseList":
-      return {
-        ...state,
-        exerciseList: action.payload,
-      };
     case "setExerciseLookup":
     return {
         ...state,
         exerciseLookup: assembleExercises(action.payload, state),
         exerciseLoaded: true
-      };
-    case "setExerciseTypeList":
-      return {
-        ...state,
-        exerciseTypeList: action.payload,
-      };
-
-    case "setEquipmentTypeList":
-      return {
-        ...state,
-        equipmentTypeList: action.payload,
       };
     case "setEquipmentTypeLookup":
       return {
@@ -100,26 +77,11 @@ function Reducer(state: typeof initialState, action: ReducerAction): typeof init
         blockLookup: assembleBlocks(action.payload, state),
         blockLoaded: true
       };
-    case "setBlockList":
-      return {
-        ...state,
-        blockList: action.payload,
-      };
-    case "setUsableBlockList":
-      return {
-        ...state,
-        usableBlockList: action.payload,
-      };
     case "setWorkoutLookup":
       return {
         ...state,
         workoutLookup: assembleWorkouts(action.payload, state),
         workoutLoaded: true
-      };
-    case "setWorkoutList":
-      return {
-        ...state,
-        workoutList: action.payload,
       };
     case "setSessionList":
       return {
