@@ -7,7 +7,7 @@ import CustomInput from "../components/CustomInput";
 import CustomText from "../components/CustomText";
 import Gap from "../components/Gap";
 import { AppStore } from "../stores/appStore";
-import { ExerciseType } from "../stores/types";
+import { EquipmentType, ExerciseType } from "../stores/types";
 import { universalStyles } from "../utilities/stylevars";
 
 const Settings = () => {
@@ -17,10 +17,20 @@ const Settings = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
+  const [createNewUser, setCreateNewUser] = useState(false)
+
+  const loginCreateTextPrompt = createNewUser ? "Login with preexisting account instead?" : "Create new user instead?"
+
+  const handleLoginCreatePrompt = () => {
+    setCreateNewUser(!createNewUser)
+  }
+
   const [settingsPage, setSettingsPage] = useState("main");
 
-  const login = async () => {
-    dispatch({ name: "asyncLoginUser", payload: { email, password } });
+  const handleLoginOrCreate = async () => {
+    if (createNewUser) {} else {
+      dispatch({ name: "asyncLoginUser", payload: { email, password } });
+    }
     setEmail("");
     setPassword("");
   };
@@ -45,7 +55,6 @@ const Settings = () => {
   // };
 
   const ExerciseTypesPage = () => {
-    console.log(state.exerciseTypeList);
 
     return (
       <View style={universalStyles.page}>
@@ -56,7 +65,7 @@ const Settings = () => {
             Settings
           </CustomText>
         </Pressable>
-        {state.exerciseTypeList.map((exerciseType: ExerciseType, idx: number) => (
+        {state.exerciseTypeLookup.list.map((exerciseType: ExerciseType, idx: number) => (
           <CustomText key={idx}>{exerciseType.name}</CustomText>
         ))}
       </View>
@@ -73,6 +82,10 @@ const Settings = () => {
             Settings
           </CustomText>
         </Pressable>
+        {state.equipmentTypeLookup.list.map((equipmentType: EquipmentType, idx: number) => (
+          <CustomText key={idx}>{equipmentType.name}</CustomText>
+        ))}
+
       </View>
     );
   };
@@ -111,11 +124,13 @@ const Settings = () => {
         </View>
         <View style={styles.section}>
           <CustomText bold fontSize={20} style={{ padding: 10 }}>
-            User Login
+            {createNewUser ? "Create New User" : "User Login"}
           </CustomText>
           <View style={{ padding: 10 }}>
             {!state.userToken && (
               <>
+                <Pressable onPress={handleLoginCreatePrompt}><CustomText bold color={"green"}>{loginCreateTextPrompt}</CustomText></Pressable>
+                <Gap height={10}/>
                 <CustomInput onChangeText={setEmail} value={email} placeholder="email" style={{ marginTop: 5 }} />
                 <CustomInput
                   onChangeText={setPassword}
@@ -124,9 +139,16 @@ const Settings = () => {
                   isPassword
                   style={{ marginTop: 5 }}
                 />
-                <CustomButton onPress={login} style={{ width: 100 }}>
+                {createNewUser &&                 <CustomInput
+                  onChangeText={setPasswordConfirm}
+                  value={passwordConfirm}
+                  placeholder="confirm password"
+                  isPassword
+                  style={{ marginTop: 5 }}
+                />}
+                <CustomButton onPress={handleLoginOrCreate} style={{ width: 100 }}>
                   <CustomText bold color="white">
-                    Login
+                    {createNewUser ? "Create user" : "Login"}
                   </CustomText>
                 </CustomButton>
               </>
@@ -135,7 +157,6 @@ const Settings = () => {
               <>
                 <CustomText>
                   You are currently logged in as <CustomText bold>{state.email}</CustomText>
-                  Your user id is {state.userId}
                 </CustomText>
                 <Gap height={10} />
                 <CustomButton onPress={logout} style={{ width: 100 }}>
@@ -149,7 +170,7 @@ const Settings = () => {
         </View>
         <View style={[styles.section, { padding: 10 }]}>
           <CustomText bold>Re-pull data</CustomText>
-          <Pressable onPress={refreshAllData}>
+          <Pressable onPress={() => {}}>
             <CustomIcon name="refresh-outline" iconProvider="Ionicons" color="black" />
           </Pressable>
         </View>
