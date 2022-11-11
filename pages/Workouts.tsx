@@ -13,7 +13,7 @@ const Workouts = () => {
   if (state.workoutLoaded) return (
     <View style={universalStyles.page}>
       <Gap height={20} />
-      <View style={{ width: "100%", alignItems: "flex-start" }}>
+      <View style={{ width: "100%", alignItems: "center" }}>
         {state.workoutLookup.list.map((workout: Workout, idx: number) => (
           <>
             <IndexCard
