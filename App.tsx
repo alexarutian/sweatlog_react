@@ -77,16 +77,15 @@ const AppInner = () => {
     { name: "settings", iconName: "settings-sharp", iconProvider: "Ionicons" },
   ];
 
-  React.useEffect(() => {
+  useEffect(() => {
     getLastPage();
     if (state.userToken == null || !state.userId) {
       getSecureStoreInfo();
-    } else {
-      if (!state.exerciseTypeLoaded || !state.equipmentTypeLoaded) {
+    } 
+      if ((!state.exerciseTypeLoaded || !state.equipmentTypeLoaded) && state.userToken && state.userId) {
         getAllBackendData();
       }
-    }
-  }, [userDataLoaded, state.userToken, state.userId]);
+  }, [userDataLoaded, state.userToken, state.userId, state.exerciseTypeLoaded, state.equipmentTypeLoaded]);
 
   return (
     <View style={styles.container}>
