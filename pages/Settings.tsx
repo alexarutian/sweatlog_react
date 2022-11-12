@@ -27,12 +27,17 @@ const Settings = () => {
 
   const [settingsPage, setSettingsPage] = useState("main");
 
+  const isMatchingPassword =  createNewUser && (password === passwordConfirm)
+
   const handleLoginOrCreate = async () => {
-    if (createNewUser) {} else {
+    if (createNewUser && isMatchingPassword) {
+      dispatch({name: "asyncCreateUser", payload: {email, password}})
+    } else {
       dispatch({ name: "asyncLoginUser", payload: { email, password } });
     }
     setEmail("");
     setPassword("");
+    setPasswordConfirm("")
   };
 
   const logout = async () => {
