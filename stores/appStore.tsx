@@ -128,6 +128,29 @@ export const AppContextProvider = (props: ProviderProps) => {
             }
           );
         break;
+        case "asyncCreateUser":
+          postJSONFetch("http://192.168.0.186:8000/webapp/users/", action.payload)
+            .then((res) => {
+              return res.json();
+            })
+            .then(
+              async (result) => {
+                //   context.email.set(result.email);
+                innerDispatch({ name: "setUserInfo", payload: result });
+                try {
+                  await AsyncStorage.setItem("user_token", result.token);
+                  await AsyncStorage.setItem("user_email", result.email);
+                  await AsyncStorage.setItem("user_id", result.id);
+                } catch (e) {
+                  console.log(e);
+                }
+              },
+              (error) => {
+                console.log(error.message);
+              }
+            );
+          break;
+  
       case "asyncLogoutUser":
         try {
           AsyncStorage.removeItem("user_token");
