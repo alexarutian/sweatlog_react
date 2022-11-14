@@ -117,7 +117,7 @@ export const AppContextProvider = (props: ProviderProps) => {
               try {
                 await AsyncStorage.setItem("user_token", result.token);
                 await AsyncStorage.setItem("user_email", result.email);
-                await AsyncStorage.setItem("user_id", result.id);
+                await AsyncStorage.setItem("user_id", result.id.toString());
               } catch (e) {
                 console.log(e);
               }
@@ -139,7 +139,7 @@ export const AppContextProvider = (props: ProviderProps) => {
               try {
                 await AsyncStorage.setItem("user_token", result.token);
                 await AsyncStorage.setItem("user_email", result.email);
-                await AsyncStorage.setItem("user_id", result.id);
+                await AsyncStorage.setItem("user_id", result.id.toString());
               } catch (e) {
                 console.log(e);
               }

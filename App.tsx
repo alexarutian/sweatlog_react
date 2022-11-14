@@ -16,7 +16,8 @@ const AppInner = () => {
     try {
       const token = await AsyncStorage.getItem("user_token");
       const email = await AsyncStorage.getItem("user_email");
-      const id = await AsyncStorage.getItem("user_id");
+      const id_string = await AsyncStorage.getItem("user_id");
+      const id = Number(id_string)
 
       if (token && email && id) {
         dispatch({ name: "setUserInfo", payload: { token, email, id } });
@@ -128,12 +129,13 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   header: {
-    height: 85,
+    height: 100,
     width: "100%",
     backgroundColor: "green",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-end",
+    paddingBottom: 5
   },
   title: {
     fontSize: 45,
@@ -147,7 +149,8 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexGrow: 0,
-    height: 60,
+    height: 80,
+    paddingBottom: 15,
     width: "100%",
     backgroundColor: "green",
     flexDirection: "row",
