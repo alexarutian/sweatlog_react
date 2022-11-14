@@ -7,22 +7,28 @@ type CustomInputProps = {
   style?: ViewProps["style"];
   onChangeText?: any,
   value?: string;
+  defaultValue?: string;
   placeholder?: string;
-  isPassword?: boolean
+  isPassword?: boolean;
+  editable?: boolean;
+  onFocus?: () => void
 
 };
 
-const CustomInput = ({ fontSize = 14, width = 200, style, onChangeText, value, placeholder, isPassword }: CustomInputProps) => {
+const CustomInput = ({ fontSize = 14, width = 200, style, onChangeText, value, defaultValue, placeholder, isPassword, editable=true, onFocus }: CustomInputProps) => {
   const styles = makeStyles(fontSize, width);
   return (
     <TextInput
       style={[styles.input, style]}
       clearButtonMode={"always"}
       onChangeText={onChangeText}
+      defaultValue={defaultValue}
       value={value}
       placeholder={placeholder}
       selectTextOnFocus={true}
       secureTextEntry={isPassword}
+      editable={editable}
+      onFocus={onFocus}
     ></TextInput>
   );
 };

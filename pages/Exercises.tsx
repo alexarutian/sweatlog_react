@@ -120,8 +120,8 @@ const Exercises = () => {
   ];
 
 
-  const [addingExercise, setAddingExercise] = React.useState(false);
-
+  const [addingExercise, setAddingExercise] = React.useState(false)
+  
 
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
