@@ -1,31 +1,46 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import CustomText from "../components/CustomText";
+import CustomIcon from "./CustomIcon";
 
 type IndexCardProps = {
-    title: string | React.ReactElement,
-    titleStyle?: object,
-    rows: React.ReactElement[],
-    cardStyle?: object,
-}
+  title: string | React.ReactElement;
+  titleStyle?: object;
+  rows: React.ReactElement[];
+  cardStyle?: object;
+  closeButton?: boolean;
+  closeButtonOnPress?: () => void;
+  noBodyLines?: boolean;
+};
 
 const IndexCard = (props: IndexCardProps) => {
-    const {title, titleStyle, rows, cardStyle} = props;
+  const { title, titleStyle, rows, cardStyle, closeButton, closeButtonOnPress, noBodyLines = false } = props;
 
   return (
-          <View style={[styles.agendaCard, cardStyle]}>
-            {typeof title == "string" ? (<CustomText fontSize={10} bold style={[{ padding: 10, paddingBottom: 5 }, titleStyle]}>
-              {title}
-            </CustomText> ): (title)}
-            <View style={styles.redDividingLine}></View>
-            {rows.map(
-              (row, idx) =>
-                  <>
-                    {row}
-                    {idx < (rows.length - 1) && <View style={styles.dividingLine}></View>}
-                  </>
-            )}
-          </View>
+    <View style={[styles.agendaCard, cardStyle]}>
+      {closeButton && (
+        <Pressable
+          onPress={closeButtonOnPress}
+          style={{ position: "absolute", top: 3, right: 3, height: 25, width: 25 }}
+        >
+          <CustomIcon iconProvider="Ionicons" name="close" color="red" />
+        </Pressable>
+      )}
+      {typeof title == "string" ? (
+        <CustomText fontSize={10} bold style={[{ padding: 10, paddingBottom: 5 }, titleStyle]}>
+          {title}
+        </CustomText>
+      ) : (
+        title
+      )}
+      <View style={styles.redDividingLine}></View>
+      {rows.map((row, idx) => (
+        <View key={idx}>
+          {row}
+          {idx < rows.length - 1 && !noBodyLines && <View style={styles.dividingLine}></View>}
+        </View>
+      ))}
+    </View>
   );
 };
 
