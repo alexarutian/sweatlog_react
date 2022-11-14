@@ -31,11 +31,11 @@ const makeStyles = (fontSize: number, width: number) => {
   return StyleSheet.create({
     input: {
       fontSize: fontSize,
-      backgroundColor: "lightgray",
+      backgroundColor: "rgba(233, 233, 233, 1)",
       borderRadius: 5,
       height: 30,
       width: width,
-      padding: 5
+      padding: 5,
     },
   });
 };

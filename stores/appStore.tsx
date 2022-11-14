@@ -230,6 +230,21 @@ export const AppContextProvider = (props: ProviderProps) => {
             }
           );
         break;
+        case "createExercise":
+          const createExerciseUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercises/";
+          postJSONFetch(createExerciseUrl, action.payload)
+            .then((res) => {
+              return res.json();
+            })
+            .then(
+              (result) => {
+                dispatch({ name: "getAllExercises", payload: { user_token: action.payload.user_token }, user: action.user });
+              },
+              (error) => {
+                console.log(error.message);
+              }
+            );
+          break;
       case "getAllWorkouts":
         const workoutsUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/workouts/";
         getJSONFetch(workoutsUrl, action.payload)
@@ -284,7 +299,6 @@ export const AppContextProvider = (props: ProviderProps) => {
 
 const assembleExercises = (incomingExerciseList: IncomingExercise[], state: typeof initialState) => {
   let exerciseMap: { [key: number]: Exercise } = {};
-
   let exerciseList = incomingExerciseList.map((exercise: IncomingExercise) => {
     let exerciseType =
       exercise.exercise_type_id == undefined ? undefined : state.exerciseTypeLookup.byId[exercise.exercise_type_id];
@@ -303,7 +317,6 @@ const assembleExercises = (incomingExerciseList: IncomingExercise[], state: type
     return exerciseObject;
   });
   const lookup: Lookup<Exercise> = { list: exerciseList as unknown as Exercise[], byId: exerciseMap };
-  console.log(lookup)
   return lookup;
 };
 

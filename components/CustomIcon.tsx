@@ -5,6 +5,7 @@ import {
     Ionicons,
     MaterialIcons,
     Fontisto,
+    Feather
   } from "@expo/vector-icons";
 
 type CustomIconProps = {
@@ -15,7 +16,7 @@ type CustomIconProps = {
     style?: object,
 }
 
-export type IconProvider = "MaterialCommunityIcons" | "Octicons" | "Ionicons" | "MaterialIcons" | "Fontisto"
+export type IconProvider = "MaterialCommunityIcons" | "Octicons" | "Ionicons" | "MaterialIcons" | "Fontisto" | "Feather"
 
 function getIconProvider(
     providerName: IconProvider = "MaterialCommunityIcons"
@@ -29,6 +30,8 @@ function getIconProvider(
         return Octicons;
       case "Ionicons":
         return Ionicons;
+        case "Feather":
+          return Feather;
       case "MaterialCommunityIcons":
         return MaterialCommunityIcons;
     }
