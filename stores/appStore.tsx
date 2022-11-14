@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useReducer, ReactNode } from "react";
-import { postJSONFetch, getJSONFetch, deleteJSONFetch } from "../utilities/ajax";
+import { postJSONFetch, getJSONFetch, deleteJSONFetch, putJSONFetch } from "../utilities/ajax";
 import {
   ReducerAction,
   dummyTestCallback,
@@ -191,6 +191,63 @@ export const AppContextProvider = (props: ProviderProps) => {
             }
           );
         break;
+        case "createExerciseType":
+          const createExerciseTypeUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercisetypes/";
+          postJSONFetch(createExerciseTypeUrl, action.payload)
+            .then((res) => {
+              return res.json();
+            })
+            .then(
+              (result) => {
+                dispatch({
+                  name: "getAllExerciseTypes",
+                  payload: { user_token: action.payload.user_token },
+                });
+              },
+              (error) => {
+                console.log(error.message);
+              }
+            );
+          break;
+      case "deleteExerciseType":
+        const deleteExerciseTypeUrl =
+          "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercisetypes/" + action.payload.itemId + "/";
+        deleteJSONFetch(deleteExerciseTypeUrl, action.payload)
+          .then((res) => {
+            return res.json();
+          })
+          .then(
+            (result) => {
+              dispatch({
+                name: "getAllExerciseTypes",
+                payload: { user_token: action.payload.user_token },
+              });
+            },
+            (error) => {
+              console.log(error.message);
+            }
+          );
+        break;
+      case "editExerciseType":
+        const editExerciseTypeUrl =
+          "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercisetypes/" + action.payload.itemId + "/";
+        putJSONFetch(editExerciseTypeUrl, action.payload)
+          .then((res) => {
+            return res.json();
+          })
+          .then(
+            (result) => {
+              dispatch({
+                name: "getAllExerciseTypes",
+                payload: { user_token: action.payload.user_token },
+              });
+            },
+            (error) => {
+              console.log(error.message);
+            }
+          );
+        break;
+
       case "getAllEquipmentTypes":
         getJSONFetch("http://192.168.0.186:8000/webapp/equipmenttypes/", action.payload)
           .then((res) => {
@@ -250,7 +307,7 @@ export const AppContextProvider = (props: ProviderProps) => {
         break;
       case "deleteExercise":
         const deleteExerciseUrl =
-          "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercise/" + action.payload.itemId + "/";
+          "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercises/" + action.payload.itemId + "/";
         deleteJSONFetch(deleteExerciseUrl, action.payload)
           .then((res) => {
             return res.json();

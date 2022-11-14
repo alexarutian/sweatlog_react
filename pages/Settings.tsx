@@ -17,27 +17,27 @@ const Settings = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const [createNewUser, setCreateNewUser] = useState(false)
+  const [createNewUser, setCreateNewUser] = useState(false);
 
-  const loginCreateTextPrompt = createNewUser ? "Login with preexisting account instead?" : "Create new user instead?"
+  const loginCreateTextPrompt = createNewUser ? "Login with preexisting account instead?" : "Create new user instead?";
 
   const handleLoginCreatePrompt = () => {
-    setCreateNewUser(!createNewUser)
-  }
+    setCreateNewUser(!createNewUser);
+  };
 
   const [settingsPage, setSettingsPage] = useState("main");
 
-  const isMatchingPassword =  createNewUser && (password === passwordConfirm)
+  const isMatchingPassword = createNewUser && password === passwordConfirm;
 
   const handleLoginOrCreate = async () => {
     if (createNewUser && isMatchingPassword) {
-      dispatch({name: "asyncCreateUser", payload: {email, password}})
+      dispatch({ name: "asyncCreateUser", payload: { email, password } });
     } else {
       dispatch({ name: "asyncLoginUser", payload: { email, password } });
     }
     setEmail("");
     setPassword("");
-    setPasswordConfirm("")
+    setPasswordConfirm("");
   };
 
   const logout = async () => {
@@ -48,31 +48,189 @@ const Settings = () => {
     setSettingsPage("main");
   };
 
-  // TEMPORARY FIX - add this to the appStore or another store
-  // const refreshAllData = () => {
-  //   dispatch({ name: "getAllExerciseTypes", payload: { user_token: state.userToken } });
-  //   dispatch({ name: "getAllEquipmentTypes", payload: { user_token: state.userToken } });
+  const settingsBackButton = (
+    <Pressable style={styles.backButton} onPress={goToMainSettings}>
+      <CustomIcon name="chevron-back" iconProvider="Ionicons" color="blue" iconSize={18} />
+      <CustomText color="blue" fontSize={16}>
+        Settings
+      </CustomText>
+    </Pressable>
+  );
 
-  //   dispatch({ name: "getAllExercises", payload: { user_token: state.userToken }, user: state.userId });
-  //   dispatch({ name: "getAllWorkouts", payload: { user_token: state.userToken }, user: state.userId });
-  //   dispatch({ name: "getAllSessions", payload: { user_token: state.userToken }, user: state.userId });
-  //   dispatch({ name: "getAllBlocks", payload: { user_token: state.userToken }, user: state.userId });
-  // };
+  const [selectedExerciseType, setSelectedExerciseType] = useState<ExerciseType>();
 
   const ExerciseTypesPage = () => {
+    // when I move this outside of this functional component, input doesn't work properly - WHY
+    const [selectedExerciseTypeName, setSelectedExerciseTypeName] = useState("");
+
+    const startEditingExerciseType = () => {};
+
+    const handleEditExerciseType = () => {
+      if (selectedExerciseType) {
+        dispatch({
+          name: "editExerciseType",
+          payload: { itemId: selectedExerciseType.id, user_token: state.userToken, name: selectedExerciseTypeName },
+          user: state.userId,
+        });
+      }
+      setSelectedExerciseType(undefined);
+    };
+
+    const handleDeleteET = (exerciseType: ExerciseType) => {
+      if (exerciseType) {
+        dispatch({
+          name: "deleteExerciseType",
+          payload: { itemId: exerciseType.id, user_token: state.userToken},
+          user: state.userId
+        });
+      }
+    };
+
+    const [isAddingExerciseType, setIsAddingExerciseType] = useState(false);
+
+    const handleCreateExerciseType = () => {
+      if (selectedExerciseTypeName) {
+        dispatch({
+          name: "createExerciseType",
+          payload: { user_token: state.userToken, name: selectedExerciseTypeName },
+          user: state.userId,
+        });
+      }
+    };
+    const turnOffCreateExerciseType = () => {
+      setIsAddingExerciseType(false);
+      setSelectedExerciseTypeName("");
+    };
 
     return (
       <View style={universalStyles.page}>
         <Gap height={10} />
-        <Pressable style={styles.backButton} onPress={goToMainSettings}>
-          <CustomIcon name="chevron-back" iconProvider="Ionicons" color="blue" iconSize={18} />
-          <CustomText color="blue" fontSize={16}>
-            Settings
+        {settingsBackButton}
+        {state.exerciseTypeLookup.list.map((exerciseType: ExerciseType, idx: number) => {
+          if (exerciseType === selectedExerciseType) {
+            return (
+              <View
+                key={idx}
+                style={{
+                  width: "100%",
+                  height: 50,
+                  padding: 10,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <CustomInput
+                  defaultValue={exerciseType.name}
+                  // value={selectedExerciseTypeName}
+                  placeholder={exerciseType.name}
+                  onChangeText={setSelectedExerciseTypeName}
+                />
+                <Pressable
+                  onPress={handleEditExerciseType}
+                  style={{ width: 50, alignItems: "center", justifyContent: "center" }}
+                >
+                  <CustomIcon iconProvider="Feather" name="check" iconSize={25} color="green" />
+                </Pressable>
+                <Pressable
+                  onPress={() => {handleDeleteET(exerciseType)}}
+                  style={{ width: 50, alignItems: "center", justifyContent: "center" }}
+                >
+                  <CustomIcon
+                    iconProvider="MaterialCommunityIcons"
+                    name="trash-can"
+                    iconSize={34}
+                    color="rgba(60, 73, 63, 0.3)"
+                  />
+                </Pressable>
+              </View>
+            );
+          } else {
+            return (
+              <View
+                key={idx}
+                style={{
+                  width: "100%",
+                  height: 50,
+                  padding: 10,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <Pressable
+                  onPress={() => {
+                    setSelectedExerciseType(exerciseType);
+                  }}
+                  style={{ width: 200 }}
+                >
+                  <CustomText key={idx}>{exerciseType.name}</CustomText>
+                </Pressable>
+                <Pressable
+                  onPress={startEditingExerciseType}
+                  style={{ width: 50, alignItems: "center", justifyContent: "center" }}
+                >
+                  <CustomIcon name="edit" iconProvider="MaterialIcons" color="rgba(60, 73, 63, 0.3)" iconSize={30} />
+                </Pressable>
+                <Pressable
+                  onPress={() => {handleDeleteET(exerciseType)}}
+                  style={{ width: 50, alignItems: "center", justifyContent: "center" }}
+                >
+                  <CustomIcon
+                    iconProvider="MaterialCommunityIcons"
+                    name="trash-can"
+                    iconSize={34}
+                    color="rgba(60, 73, 63, 0.3)"
+                  />
+                </Pressable>
+              </View>
+            );
+          }
+        })}
+        <CustomButton
+          onPress={() => {
+            setIsAddingExerciseType(true);
+          }}
+        >
+          <CustomText color="white" bold>
+            Add Exercise Type
           </CustomText>
-        </Pressable>
-        {state.exerciseTypeLookup.list.map((exerciseType: ExerciseType, idx: number) => (
-          <CustomText key={idx}>{exerciseType.name}</CustomText>
-        ))}
+        </CustomButton>
+        {isAddingExerciseType && (
+          <View
+            style={{
+              width: "100%",
+              height: 50,
+              padding: 10,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-start",
+            }}
+          >
+            <CustomInput
+              value={selectedExerciseTypeName}
+              placeholder={"enter name here"}
+              onChangeText={setSelectedExerciseTypeName}
+            />
+            <Pressable
+              onPress={handleCreateExerciseType}
+              style={{ width: 50, alignItems: "center", justifyContent: "center" }}
+            >
+              <CustomIcon iconProvider="Feather" name="check" iconSize={25} color="green" />
+            </Pressable>
+            <Pressable
+              onPress={turnOffCreateExerciseType}
+              style={{ width: 50, alignItems: "center", justifyContent: "center" }}
+            >
+              <CustomIcon
+                iconProvider="MaterialCommunityIcons"
+                name="trash-can"
+                iconSize={34}
+                color="rgba(60, 73, 63, 0.3)"
+              />
+            </Pressable>
+          </View>
+        )}
       </View>
     );
   };
@@ -81,16 +239,10 @@ const Settings = () => {
     return (
       <View style={universalStyles.page}>
         <Gap height={10} />
-        <Pressable style={styles.backButton} onPress={goToMainSettings}>
-          <CustomIcon name="chevron-back" iconProvider="Ionicons" color="blue" iconSize={18} />
-          <CustomText color="blue" fontSize={16}>
-            Settings
-          </CustomText>
-        </Pressable>
+        {settingsBackButton}
         {state.equipmentTypeLookup.list.map((equipmentType: EquipmentType, idx: number) => (
           <CustomText key={idx}>{equipmentType.name}</CustomText>
         ))}
-
       </View>
     );
   };
@@ -123,7 +275,7 @@ const Settings = () => {
               setSettingsPage("equipmentTypes");
             }}
           >
-            <CustomText>EquipmentTypes</CustomText>
+            <CustomText>Equipment Types</CustomText>
             <CustomIcon name="chevron-forward" iconProvider="Ionicons" color="lightgray" iconSize={14} />
           </Pressable>
         </View>
@@ -134,8 +286,12 @@ const Settings = () => {
           <View style={{ padding: 10 }}>
             {!state.userToken && (
               <>
-                <Pressable onPress={handleLoginCreatePrompt}><CustomText bold color={"green"}>{loginCreateTextPrompt}</CustomText></Pressable>
-                <Gap height={10}/>
+                <Pressable onPress={handleLoginCreatePrompt}>
+                  <CustomText bold color={"green"}>
+                    {loginCreateTextPrompt}
+                  </CustomText>
+                </Pressable>
+                <Gap height={10} />
                 <CustomInput onChangeText={setEmail} value={email} placeholder="email" style={{ marginTop: 5 }} />
                 <CustomInput
                   onChangeText={setPassword}
@@ -144,13 +300,15 @@ const Settings = () => {
                   isPassword
                   style={{ marginTop: 5 }}
                 />
-                {createNewUser &&                 <CustomInput
-                  onChangeText={setPasswordConfirm}
-                  value={passwordConfirm}
-                  placeholder="confirm password"
-                  isPassword
-                  style={{ marginTop: 5 }}
-                />}
+                {createNewUser && (
+                  <CustomInput
+                    onChangeText={setPasswordConfirm}
+                    value={passwordConfirm}
+                    placeholder="confirm password"
+                    isPassword
+                    style={{ marginTop: 5 }}
+                  />
+                )}
                 <CustomButton onPress={handleLoginOrCreate} style={{ width: 100 }}>
                   <CustomText bold color="white">
                     {createNewUser ? "Create user" : "Login"}
