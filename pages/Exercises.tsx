@@ -22,7 +22,15 @@ const Exercises = () => {
     }
   }, [state.exerciseLookup.list]);
 
-  const [addingExercise, setAddingExercise] = React.useState(true);
+  const handleDelete = () => {
+    if (selectedExercise) {
+      dispatch({
+        name: "deleteExercise",
+        payload: { itemId: selectedExercise.id, user_token: state.userToken },
+        user: state.userId,
+      });
+    }
+  };
 
   const selectedExerciseTitle = (
     <View style={{ flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-start", padding: 5 }}>
@@ -99,15 +107,21 @@ const Exercises = () => {
         iconSize={30}
         style={{ padding: 5, marginHorizontal: 5 }}
       />
-      <CustomIcon
-        name="trash-can"
-        iconProvider="MaterialCommunityIcons"
-        color="rgba(60, 73, 63, 0.3)"
-        iconSize={30}
-        style={{ padding: 5, marginLeft: 5 }}
-      />
+      <Pressable onPress={handleDelete}>
+        <CustomIcon
+          name="trash-can"
+          iconProvider="MaterialCommunityIcons"
+          color="rgba(60, 73, 63, 0.3)"
+          iconSize={30}
+          style={{ padding: 5, marginLeft: 5 }}
+        />
+      </Pressable>
     </View>,
   ];
+
+
+  const [addingExercise, setAddingExercise] = React.useState(false);
+
 
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -115,21 +129,26 @@ const Exercises = () => {
   const [selectedEquipmentType, setSelectedEquipmentType] = React.useState<EquipmentType>();
   const [isExerciseTypeDropdownOpen, setIsExerciseTypeDropdownOpen] = React.useState(false);
   const [isEquipmentTypeDropdownOpen, setIsEquipmentTypeDropdownOpen] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState("")
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   const submitExercise = () => {
     if (!name) {
-      setErrorMessage("name is required")
-      return
+      setErrorMessage("name is required");
+      return;
     }
-    let payload = {name: name, user_token: state.userToken}
-    if (description !== undefined) { payload.description = description}
-    if (selectedExerciseType !== undefined) {payload.exercise_type_id = selectedExerciseType.id} 
-    if (selectedEquipmentType !== undefined) {payload.equipment_type_id = selectedEquipmentType.id} 
-    dispatch({name: "createExercise", payload: payload, user: state.userId})
-    setAddingExercise(false)
-
-  }
+    let payload = { name: name, user_token: state.userToken };
+    if (description !== undefined) {
+      payload.description = description;
+    }
+    if (selectedExerciseType !== undefined) {
+      payload.exercise_type_id = selectedExerciseType.id;
+    }
+    if (selectedEquipmentType !== undefined) {
+      payload.equipment_type_id = selectedEquipmentType.id;
+    }
+    dispatch({ name: "createExercise", payload: payload, user: state.userId });
+    setAddingExercise(false);
+  };
 
   const addExerciseRows = [
     <View style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}>
@@ -218,9 +237,13 @@ const Exercises = () => {
         </View>
       )}
     </View>,
-        <View style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}>
-          <CustomButton onPress={submitExercise} style={{width: 200}}><CustomText bold color="white">Create exercise</CustomText></CustomButton>
-</View>
+    <View style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}>
+      <CustomButton onPress={submitExercise} style={{ width: 200 }}>
+        <CustomText bold color="white">
+          Create exercise
+        </CustomText>
+      </CustomButton>
+    </View>,
   ];
 
   if (!state.exerciseLoaded) {
@@ -272,7 +295,7 @@ const Exercises = () => {
           <IndexCard
             cardStyle={{ position: "absolute", height: "100%", width: "100%" }}
             title={"Add an exercise"}
-            titleStyle={{height: 45, fontSize: 20}}
+            titleStyle={{ height: 45, fontSize: 20 }}
             rows={addExerciseRows}
             closeButton
             closeButtonOnPress={() => {

@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useReducer, ReactNode } from "react";
-import { postJSONFetch, getJSONFetch } from "../utilities/ajax";
+import { postJSONFetch, getJSONFetch, deleteJSONFetch } from "../utilities/ajax";
 import {
   ReducerAction,
   dummyTestCallback,
@@ -33,8 +33,7 @@ const initialState = {
   equipmentTypeLoaded: false,
   exerciseLoaded: false,
   blockLoaded: false,
-  workoutLoaded: false
-
+  workoutLoaded: false,
 };
 
 function Reducer(state: typeof initialState, action: ReducerAction): typeof initialState {
@@ -54,34 +53,34 @@ function Reducer(state: typeof initialState, action: ReducerAction): typeof init
         userToken: null,
       };
     case "setExerciseLookup":
-    return {
+      return {
         ...state,
         exerciseLookup: assembleExercises(action.payload, state),
-        exerciseLoaded: true
+        exerciseLoaded: true,
       };
     case "setEquipmentTypeLookup":
       return {
         ...state,
         equipmentTypeLookup: action.payload,
-        equipmentTypeLoaded: true
+        equipmentTypeLoaded: true,
       };
     case "setExerciseTypeLookup":
       return {
         ...state,
         exerciseTypeLookup: action.payload,
-        exerciseTypeLoaded: true
+        exerciseTypeLoaded: true,
       };
     case "setBlockLookup":
       return {
         ...state,
         blockLookup: assembleBlocks(action.payload, state),
-        blockLoaded: true
+        blockLoaded: true,
       };
     case "setWorkoutLookup":
       return {
         ...state,
         workoutLookup: assembleWorkouts(action.payload, state),
-        workoutLoaded: true
+        workoutLoaded: true,
       };
     case "setSessionList":
       return {
@@ -128,29 +127,29 @@ export const AppContextProvider = (props: ProviderProps) => {
             }
           );
         break;
-        case "asyncCreateUser":
-          postJSONFetch("http://192.168.0.186:8000/webapp/users/", action.payload)
-            .then((res) => {
-              return res.json();
-            })
-            .then(
-              async (result) => {
-                //   context.email.set(result.email);
-                innerDispatch({ name: "setUserInfo", payload: result });
-                try {
-                  await AsyncStorage.setItem("user_token", result.token);
-                  await AsyncStorage.setItem("user_email", result.email);
-                  await AsyncStorage.setItem("user_id", result.id);
-                } catch (e) {
-                  console.log(e);
-                }
-              },
-              (error) => {
-                console.log(error.message);
+      case "asyncCreateUser":
+        postJSONFetch("http://192.168.0.186:8000/webapp/users/", action.payload)
+          .then((res) => {
+            return res.json();
+          })
+          .then(
+            async (result) => {
+              //   context.email.set(result.email);
+              innerDispatch({ name: "setUserInfo", payload: result });
+              try {
+                await AsyncStorage.setItem("user_token", result.token);
+                await AsyncStorage.setItem("user_email", result.email);
+                await AsyncStorage.setItem("user_id", result.id);
+              } catch (e) {
+                console.log(e);
               }
-            );
-          break;
-  
+            },
+            (error) => {
+              console.log(error.message);
+            }
+          );
+        break;
+
       case "asyncLogoutUser":
         try {
           AsyncStorage.removeItem("user_token");
@@ -230,21 +229,45 @@ export const AppContextProvider = (props: ProviderProps) => {
             }
           );
         break;
-        case "createExercise":
-          const createExerciseUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercises/";
-          postJSONFetch(createExerciseUrl, action.payload)
-            .then((res) => {
-              return res.json();
-            })
-            .then(
-              (result) => {
-                dispatch({ name: "getAllExercises", payload: { user_token: action.payload.user_token }, user: action.user });
-              },
-              (error) => {
-                console.log(error.message);
-              }
-            );
-          break;
+      case "createExercise":
+        const createExerciseUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercises/";
+        postJSONFetch(createExerciseUrl, action.payload)
+          .then((res) => {
+            return res.json();
+          })
+          .then(
+            (result) => {
+              dispatch({
+                name: "getAllExercises",
+                payload: { user_token: action.payload.user_token },
+                user: action.user,
+              });
+            },
+            (error) => {
+              console.log(error.message);
+            }
+          );
+        break;
+      case "deleteExercise":
+        const deleteExerciseUrl =
+          "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercise/" + action.payload.itemId + "/";
+        deleteJSONFetch(deleteExerciseUrl, action.payload)
+          .then((res) => {
+            return res.json();
+          })
+          .then(
+            (result) => {
+              dispatch({
+                name: "getAllExercises",
+                payload: { user_token: action.payload.user_token },
+                user: action.user,
+              });
+            },
+            (error) => {
+              console.log(error.message);
+            }
+          );
+        break;
       case "getAllWorkouts":
         const workoutsUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/workouts/";
         getJSONFetch(workoutsUrl, action.payload)
@@ -303,9 +326,7 @@ const assembleExercises = (incomingExerciseList: IncomingExercise[], state: type
     let exerciseType =
       exercise.exercise_type_id == undefined ? undefined : state.exerciseTypeLookup.byId[exercise.exercise_type_id];
     let equipmentType =
-      exercise.equipment_type_id == undefined
-        ? undefined
-        : state.equipmentTypeLookup.byId[exercise.equipment_type_id];
+      exercise.equipment_type_id == undefined ? undefined : state.equipmentTypeLookup.byId[exercise.equipment_type_id];
     const exerciseObject = {
       name: exercise.name,
       id: exercise.id,
@@ -343,7 +364,7 @@ const assembleBlocks = (incomingBlockList: IncomingBlock[], state: typeof initia
     return blockObject;
   });
   const lookup: Lookup<Block> = { list: blockList as unknown as Block[], byId: blockMap };
-  return lookup
+  return lookup;
 };
 
 const assembleWorkouts = (incomingWorkoutList: IncomingWorkout[], state: typeof initialState) => {
@@ -367,7 +388,7 @@ const assembleWorkouts = (incomingWorkoutList: IncomingWorkout[], state: typeof 
     return workoutObject;
   });
   const lookup: Lookup<Workout> = { list: workoutList as unknown as Workout[], byId: workoutMap };
-  return lookup
+  return lookup;
 };
 
 export const AppStore = createContext({ state: initialState, dispatch: dummyTestCallback });
