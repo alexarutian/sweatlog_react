@@ -271,6 +271,62 @@ export const AppContextProvider = (props: ProviderProps) => {
             }
           );
         break;
+        case "createEquipmentType":
+          const createEquipmentTypeUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/equipmenttypes/";
+          postJSONFetch(createEquipmentTypeUrl, action.payload)
+            .then((res) => {
+              return res.json();
+            })
+            .then(
+              (result) => {
+                dispatch({
+                  name: "getAllEquipmentTypes",
+                  payload: { user_token: action.payload.user_token },
+                });
+              },
+              (error) => {
+                console.log(error.message);
+              }
+            );
+          break;
+      case "deleteEquipmentType":
+        const deleteEquipmentTypeUrl =
+          "http://192.168.0.186:8000/webapp/users/" + action.user + "/equipmenttypes/" + action.payload.itemId + "/";
+        deleteJSONFetch(deleteEquipmentTypeUrl, action.payload)
+          .then((res) => {
+            return res.json();
+          })
+          .then(
+            (result) => {
+              dispatch({
+                name: "getAllEquipmentTypes",
+                payload: { user_token: action.payload.user_token },
+              });
+            },
+            (error) => {
+              console.log(error.message);
+            }
+          );
+        break;
+      case "editEquipmentType":
+        const editEquipmentTypeUrl =
+          "http://192.168.0.186:8000/webapp/users/" + action.user + "/equipmenttypes/" + action.payload.itemId + "/";
+        putJSONFetch(editEquipmentTypeUrl, action.payload)
+          .then((res) => {
+            return res.json();
+          })
+          .then(
+            (result) => {
+              dispatch({
+                name: "getAllEquipmentTypes",
+                payload: { user_token: action.payload.user_token },
+              });
+            },
+            (error) => {
+              console.log(error.message);
+            }
+          );
+        break;
       case "getAllExercises":
         const exercisesUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercises/";
         getJSONFetch(exercisesUrl, action.payload)
