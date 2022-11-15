@@ -64,7 +64,9 @@ const AppInner = () => {
     await Font.loadAsync({
       // Loading fonts directly from static resource (assets folder)
       Graduate: require("./assets/Graduate-Regular.ttf"),
-      Inter: require("./assets/Inter-VariableFont.ttf"),
+      Inter: require("./assets/Inter-Regular.ttf"),
+      InterBold: require("./assets/Inter-Bold.ttf"),
+
     });
     setFontsLoaded(true);
   }
