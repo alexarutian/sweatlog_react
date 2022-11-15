@@ -8,6 +8,7 @@ import Footer, { NavOption } from "./components/Footer";
 import Settings from "./pages/Settings";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppContextProvider, AppStore } from "./stores/appStore";
+import * as Font from "expo-font";
 
 const AppInner = () => {
   const { state, dispatch } = React.useContext(AppStore);
@@ -17,7 +18,7 @@ const AppInner = () => {
       const token = await AsyncStorage.getItem("user_token");
       const email = await AsyncStorage.getItem("user_email");
       const id_string = await AsyncStorage.getItem("user_id");
-      const id = Number(id_string)
+      const id = Number(id_string);
 
       if (token && email && id) {
         dispatch({ name: "setUserInfo", payload: { token, email, id } });
@@ -51,12 +52,24 @@ const AppInner = () => {
   const getAllBackendData = () => {
     if (!state.exerciseTypeLoaded) {
       dispatch({ name: "getAllExerciseTypes", payload: { user_token: state.userToken } });
-    } if (!state.equipmentTypeLoaded) {
+    }
+    if (!state.equipmentTypeLoaded) {
       dispatch({ name: "getAllEquipmentTypes", payload: { user_token: state.userToken } });
     }
     // dispatch({ name: "getAllSessions", payload: { user_token: state.userToken }, user: state.userId });
   };
 
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  async function loadFonts() {
+    await Font.loadAsync({
+      // Loading fonts directly from static resource (assets folder)
+      Graduate: require("./assets/fonts/Graduate-Regular.ttf"),
+      Inter: require("./assets/fonts/Inter-Regular.ttf"),
+      InterBold: require("./assets/fonts/Inter-Bold.ttf"),
+
+    });
+    setFontsLoaded(true);
+  }
 
   useEffect(() => {
     if (state.exerciseTypeLoaded && state.equipmentTypeLoaded && !state.exerciseLoaded) {
@@ -68,7 +81,13 @@ const AppInner = () => {
     if (state.blockLoaded && !state.workoutLoaded) {
       dispatch({ name: "getAllWorkouts", payload: { user_token: state.userToken }, user: state.userId });
     }
-  }, [state.exerciseTypeLoaded, state.equipmentTypeLoaded, state.exerciseLoaded, state.blockLoaded, state.workoutLoaded]);
+  }, [
+    state.exerciseTypeLoaded,
+    state.equipmentTypeLoaded,
+    state.exerciseLoaded,
+    state.blockLoaded,
+    state.workoutLoaded,
+  ]);
 
   const navOptions: NavOption[] = [
     { name: "agenda", iconName: "calendar-today", iconProvider: "MaterialCommunityIcons" },
@@ -82,35 +101,40 @@ const AppInner = () => {
     getLastPage();
     if (state.userToken == null || !state.userId) {
       getSecureStoreInfo();
-    } 
-      if ((!state.exerciseTypeLoaded || !state.equipmentTypeLoaded) && state.userToken && state.userId) {
-        getAllBackendData();
-      }
+    }
+    if ((!state.exerciseTypeLoaded || !state.equipmentTypeLoaded) && state.userToken && state.userId) {
+      getAllBackendData();
+    }
+    loadFonts();
   }, [userDataLoaded, state.userToken, state.userId, state.exerciseTypeLoaded, state.equipmentTypeLoaded]);
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Pressable
-          onPress={() => {
-            setPage("home");
-          }}
-        >
-          <Text style={styles.title}>SWEATLOG</Text>
-        </Pressable>
+  if (fontsLoaded) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Pressable
+            onPress={() => {
+              setPage("home");
+            }}
+          >
+            <Text style={styles.title}>SWEATLOG</Text>
+          </Pressable>
+        </View>
+        <View style={styles.body}>
+          {page === "home" && <Home />}
+          {page === "agenda" && <Agenda />}
+          {page === "exercises" && <Exercises />}
+          {page === "workouts" && <Workouts />}
+          {page === "settings" && <Settings />}
+        </View>
+        <View style={styles.footer}>
+          <Footer navOptions={navOptions} buttonOnClick={navigateToPage} activePage={page} />
+        </View>
       </View>
-      <View style={styles.body}>
-        {page === "home" && <Home />}
-        {page === "agenda" && <Agenda />}
-        {page === "exercises" && <Exercises />}
-        {page === "workouts" && <Workouts />}
-        {page === "settings" && <Settings />}
-      </View>
-      <View style={styles.footer}>
-        <Footer navOptions={navOptions} buttonOnClick={navigateToPage} activePage={page} />
-      </View>
-    </View>
-  );
+    );
+  } else {
+    return null;
+  }
 };
 
 export default function App() {
@@ -135,12 +159,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-end",
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   title: {
     fontSize: 45,
     fontWeight: "bold",
     color: "white",
+    fontFamily: "Graduate",
+    letterSpacing: 6
   },
   body: {
     flexGrow: 1,
