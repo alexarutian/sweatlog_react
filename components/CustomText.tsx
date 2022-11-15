@@ -22,6 +22,7 @@ const makeStyles = (fontSize: number, isBold: boolean, isItalic: boolean, color:
             fontStyle: isItalic ? "italic" : undefined,
             fontWeight: isBold ? "bold" : "normal",
             color: color,
+            fontFamily: "Inter"
         }
     })
 }
