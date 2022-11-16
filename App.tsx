@@ -81,12 +81,16 @@ const AppInner = () => {
     if (state.blockLoaded && !state.workoutLoaded) {
       dispatch({ name: "getAllWorkouts", payload: { user_token: state.userToken }, user: state.userId });
     }
+    if (state.workoutLoaded && !state.sessionLoaded ) {
+      dispatch({name: "getAllSessions", payload: { user_token: state.userToken }, user: state.userId })
+    }
   }, [
     state.exerciseTypeLoaded,
     state.equipmentTypeLoaded,
     state.exerciseLoaded,
     state.blockLoaded,
     state.workoutLoaded,
+    state.sessionLoaded
   ]);
 
   const navOptions: NavOption[] = [

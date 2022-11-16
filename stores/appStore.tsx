@@ -13,6 +13,8 @@ import {
   IncomingExercise,
   IncomingBlock,
   IncomingWorkout,
+  Session,
+  IncomingSession,
 } from "./types";
 
 const initialState = {
@@ -21,6 +23,7 @@ const initialState = {
   exerciseLookup: {} as Lookup<Exercise>,
   blockLookup: {} as Lookup<Block>,
   workoutLookup: {} as Lookup<Workout>,
+  sessionLookup: {} as Lookup<Session>,
   sessionList: [] as any[],
   email: null as null | string,
   userToken: null as null | string,
@@ -34,6 +37,7 @@ const initialState = {
   exerciseLoaded: false,
   blockLoaded: false,
   workoutLoaded: false,
+  sessionLoaded: false
 };
 
 function Reducer(state: typeof initialState, action: ReducerAction): typeof initialState {
@@ -87,6 +91,12 @@ function Reducer(state: typeof initialState, action: ReducerAction): typeof init
         ...state,
         sessionList: action.payload,
       };
+      case "setSessionLookup":
+        return {
+          ...state,
+          sessionLookup: assembleSessions(action.payload, state),
+          sessionLoaded: true
+        }
     case "setCurrentPage":
       return {
         ...state,
@@ -419,7 +429,7 @@ export const AppContextProvider = (props: ProviderProps) => {
           })
           .then(
             (result) => {
-              innerDispatch({ name: "setSessionList", payload: result.scheduled_sessions });
+              innerDispatch({ name: "setSessionLookup", payload: result.all_sessions });
             },
             (error) => {
               console.log(error.message);
@@ -503,5 +513,23 @@ const assembleWorkouts = (incomingWorkoutList: IncomingWorkout[], state: typeof 
   const lookup: Lookup<Workout> = { list: workoutList as unknown as Workout[], byId: workoutMap };
   return lookup;
 };
+
+const assembleSessions = (incomingSessionList: IncomingSession[], state: typeof initialState) => {
+  let sessionMap: {[key: number]: Session} = {}
+  let sessionList: Session[] = incomingSessionList.map((session: IncomingSession) => {
+    let workout = state.workoutLookup.byId[session.workout.id];
+    let date = new Date(session.date)
+    const sessionObject: Session = {
+      id: session.id,
+      workout: workout,
+      date: date,
+    }
+    sessionMap[session.id] = sessionObject
+    return sessionObject;
+  })
+  const lookup: Lookup<Session> = {list: sessionList as unknown as Session[], byId: sessionMap};
+  return lookup
+}
+
 
 export const AppStore = createContext({ state: initialState, dispatch: dummyTestCallback });
