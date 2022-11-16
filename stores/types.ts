@@ -82,8 +82,15 @@ export type Workout = {
   blocks: WorkoutBlock[];
 };
 
-export type Session = {
+export type IncomingSession = {
+  id: number;
   date: string;
+  workout: Workout
+}
+
+export type Session = {
+  id: number;
+  date: Date;
   workout: Workout;
 };
 
