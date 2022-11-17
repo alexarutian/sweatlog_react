@@ -519,10 +519,21 @@ const assembleSessions = (incomingSessionList: IncomingSession[], state: typeof 
   let sessionList: Session[] = incomingSessionList.map((session: IncomingSession) => {
     let workout = state.workoutLookup.byId[session.workout.id];
     let date = new Date(session.date)
+
+    // could also slice all this from the original session.date string from the server but seems fussier
+    // even though this involves some unnecessary steps
+    const m = date.getMonth() + 1
+    const mm = m < 10 ? " "+ m : m
+    const d = date.getDate()
+    const dd = d < 10 ? " "+ d : d
+    const yyyy = date.getFullYear()
+    const dateString = mm + "/" + dd + "/" + yyyy
+
     const sessionObject: Session = {
       id: session.id,
-      workout: workout,
-      date: date,
+      workout,
+      date,
+      dateString
     }
     sessionMap[session.id] = sessionObject
     return sessionObject;
