@@ -91,6 +91,7 @@ export type IncomingSession = {
 export type Session = {
   id: number;
   date: Date;
+  dateString: string;
   workout: Workout;
 };
 

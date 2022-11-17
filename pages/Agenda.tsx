@@ -10,26 +10,27 @@ import { universalStyles } from "../utilities/stylevars";
 const Agenda = () => {
   const { state, dispatch } = React.useContext(AppStore);
 
-  const sessionList: Session[] = state.sessionList;
   const [agendaDates, setAgendaDates] = React.useState([""]);
 
-  // const findAllDates = () => {
-  //   let dateList: string[] = [];
-  //   for (let s of sessionList) {
-  //     if (!dateList.includes(s.date)) {
-  //       dateList.push(s.date);
-  //     }
-  //   }
-  //   dateList.sort();
-  //   setAgendaDates(dateList);
-  //   return;
-  // };
+  const findAllDates = () => {
+    let dateList: string[] = [];
+    for (let session of state.sessionLookup.list) {
+      if (!dateList.includes(session.dateString)) {
+        dateList.push(session.dateString);
+      }
+    }
+    dateList.sort();
+    setAgendaDates(dateList);
+    return;
+  };
 
-  // useEffect(() => {
-  //   findAllDates();
-  // }, [sessionList]);
+  useEffect(() => {
+    if (state.sessionLookup?.list?.length > 0) {
+      findAllDates();
+    }
+  }, [state.sessionLookup.list]);
 
-  return (
+  if (state.sessionLoaded) {return (
     <View style={universalStyles.page}>
       <Gap height={20} />
       {agendaDates &&
@@ -39,9 +40,9 @@ const Agenda = () => {
               {date}
             </CustomText>
             <View style={styles.redDividingLine}></View>
-            {/* {state.sessionList.map(
+            {state.sessionLookup.list.map(
               (session: Session, idx) =>
-                session.date == date && (
+                session.dateString == date && (
                   <>
                     <View
                       key={idx}
@@ -67,11 +68,11 @@ const Agenda = () => {
                     {idx < (state.sessionList.length - 1) && <View style={styles.dividingLine}></View>}
                   </>
                 )
-            )} */}
+            )}
           </View>
         ))}
     </View>
-  );
+  )};
 };
 
 const styles = StyleSheet.create({
