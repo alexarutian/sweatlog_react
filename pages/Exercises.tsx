@@ -9,6 +9,7 @@ import IndexCard from "../components/IndexCard";
 import { AppStore } from "../stores/appStore";
 import { EquipmentType, Exercise, ExerciseType } from "../stores/types";
 import { universalStyles } from "../utilities/stylevars";
+import {Picker} from "@react-native-picker/picker"
 
 const Exercises = () => {
   const { state, dispatch } = React.useContext(AppStore);
@@ -122,7 +123,6 @@ const Exercises = () => {
 
   const [addingExercise, setAddingExercise] = React.useState(false)
   
-
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [selectedExerciseType, setSelectedExerciseType] = React.useState<ExerciseType>();
@@ -130,6 +130,13 @@ const Exercises = () => {
   const [isExerciseTypeDropdownOpen, setIsExerciseTypeDropdownOpen] = React.useState(false);
   const [isEquipmentTypeDropdownOpen, setIsEquipmentTypeDropdownOpen] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
+
+  const clearAllFields = () => {
+    setName("")
+    setDescription("")
+    setSelectedExerciseType(undefined)
+    setSelectedEquipmentType(undefined)
+  }
 
   const submitExercise = () => {
     if (!name) {
@@ -148,6 +155,7 @@ const Exercises = () => {
     }
     dispatch({ name: "createExercise", payload: payload, user: state.userId });
     setAddingExercise(false);
+    clearAllFields()
   };
 
   const addExerciseRows = [
@@ -162,8 +170,8 @@ const Exercises = () => {
         style={{ marginTop: 5 }}
       />
     </View>,
-    <View style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}>
-      <CustomButton
+    <View style={{ height: 45, flexDirection: "row", justifyContent: "flex-start", padding: 10 }}>
+      {/* <CustomButton
         buttonColor={"rgba(233, 233, 233, 1)"}
         style={{ width: 200, justifyContent: "space-between", padding: 5 }}
         onPress={() => {
@@ -178,8 +186,18 @@ const Exercises = () => {
           color="black"
           iconSize={20}
         />
-      </CustomButton>
-      {isExerciseTypeDropdownOpen && (
+      </CustomButton> */}
+      <Picker
+      style={{padding: 5, fontSize: 14, height: 50, width: 300}}
+      selectedValue={selectedExerciseType?.name}
+      onValueChange={(itemValue, itemIndex) => {
+        setSelectedExerciseType(itemValue)
+      }}>
+        {state.exerciseTypeLookup.list?.map((et: ExerciseType, idx: number) => (
+        <Picker.Item label={et.name} value={et} key={idx}/>
+        ))}
+      </Picker>
+      {/* {isExerciseTypeDropdownOpen && (
         <View>
           {state.exerciseTypeLookup.list?.length > 0 && (
             <>
@@ -198,7 +216,7 @@ const Exercises = () => {
             </>
           )}
         </View>
-      )}
+      )} */}
     </View>,
     <View style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}>
       <CustomButton
@@ -300,6 +318,7 @@ const Exercises = () => {
             closeButton
             closeButtonOnPress={() => {
               setAddingExercise(false);
+              clearAllFields()
             }}
             noBodyLines
           />

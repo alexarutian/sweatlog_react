@@ -13,6 +13,8 @@ import * as Font from "expo-font";
 const AppInner = () => {
   const { state, dispatch } = React.useContext(AppStore);
 
+  console.log(state.exerciseLookup.list)
+
   const getSecureStoreInfo = async () => {
     try {
       const token = await AsyncStorage.getItem("user_token");
