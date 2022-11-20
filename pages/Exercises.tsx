@@ -120,9 +120,9 @@ const Exercises = () => {
   ];
 
 
-  const [addingExercise, setAddingExercise] = React.useState(false)
-  
+  const [addingExercise, setAddingExercise] = React.useState(false);
 
+  
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [selectedExerciseType, setSelectedExerciseType] = React.useState<ExerciseType>();
@@ -150,101 +150,114 @@ const Exercises = () => {
     setAddingExercise(false);
   };
 
-  const addExerciseRows = [
-    <View style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}>
-      <CustomInput onChangeText={setName} value={name} placeholder="name" style={{ marginTop: 5 }} />
-    </View>,
-    <View style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}>
-      <CustomInput
-        onChangeText={setDescription}
-        value={description}
-        placeholder="description"
-        style={{ marginTop: 5 }}
-      />
-    </View>,
-    <View style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}>
-      <CustomButton
-        buttonColor={"rgba(233, 233, 233, 1)"}
-        style={{ width: 200, justifyContent: "space-between", padding: 5 }}
-        onPress={() => {
-          setIsExerciseTypeDropdownOpen(!isExerciseTypeDropdownOpen);
-          isEquipmentTypeDropdownOpen ? setIsEquipmentTypeDropdownOpen(false) : null;
-        }}
+  const addExerciseBody = (
+    <>
+      <View
+        style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}
       >
-        <CustomText>{!selectedExerciseType ? "Select Exercise Type" : selectedExerciseType.name}</CustomText>
-        <CustomIcon
-          iconProvider="Feather"
-          name={isExerciseTypeDropdownOpen ? "chevrons-up" : "chevrons-down"}
-          color="black"
-          iconSize={20}
-        />
-      </CustomButton>
-      {isExerciseTypeDropdownOpen && (
-        <View>
-          {state.exerciseTypeLookup.list?.length > 0 && (
-            <>
-              {state.exerciseTypeLookup.list.map((et: ExerciseType, idx: number) => (
-                <Pressable
-                  onPress={() => {
-                    setSelectedExerciseType(et);
-                    setIsExerciseTypeDropdownOpen(false);
-                  }}
-                  key={idx}
-                  style={{ height: 25 }}
-                >
-                  <CustomText>{et.name}</CustomText>
-                </Pressable>
-              ))}
-            </>
-          )}
-        </View>
-      )}
-    </View>,
-    <View style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}>
-      <CustomButton
-        buttonColor={"rgba(233, 233, 233, 1)"}
-        style={{ width: 200, justifyContent: "space-between", padding: 5 }}
-        onPress={() => {
-          setIsEquipmentTypeDropdownOpen(!isEquipmentTypeDropdownOpen);
-          isExerciseTypeDropdownOpen ? setIsExerciseTypeDropdownOpen(false) : null;
-        }}
+        <CustomInput onChangeText={setName} value={name} placeholder="name" style={{ marginTop: 5 }} />
+      </View>
+      ,
+      <View
+        style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}
       >
-        <CustomText>{!selectedEquipmentType ? "Select Equipment Type" : selectedEquipmentType.name}</CustomText>
-        <CustomIcon
-          iconProvider="Feather"
-          name={isEquipmentTypeDropdownOpen ? "chevrons-up" : "chevrons-down"}
-          color="black"
-          iconSize={20}
+        <CustomInput
+          onChangeText={setDescription}
+          value={description}
+          placeholder="description"
+          style={{ marginTop: 5 }}
         />
-      </CustomButton>
-      {isEquipmentTypeDropdownOpen && (
-        <View>
-          {state.equipmentTypeLookup.list?.length > 0 && (
-            <>
-              {state.equipmentTypeLookup.list.map((et: EquipmentType, idx: number) => (
-                <Pressable
-                  onPress={() => {
-                    setSelectedEquipmentType(et);
-                    setIsEquipmentTypeDropdownOpen(false);
-                  }}
-                  key={idx}
-                >
-                  <CustomText>{et.name}</CustomText>
-                </Pressable>
-              ))}
-            </>
-          )}
-        </View>
-      )}
-    </View>,
-    <View style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}>
-      <CustomButton onPress={submitExercise} style={{ width: 200 }}>
-        <CustomText bold color="white">
-          Create exercise
-        </CustomText>
-      </CustomButton>
-    </View>,
-  ];
+      </View>
+      <View
+        style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}
+      >
+        <CustomButton
+          buttonColor={"rgba(233, 233, 233, 1)"}
+          style={{ width: 200, justifyContent: "space-between", padding: 5 }}
+          onPress={() => {
+            setIsExerciseTypeDropdownOpen(!isExerciseTypeDropdownOpen);
+            isEquipmentTypeDropdownOpen ? setIsEquipmentTypeDropdownOpen(false) : null;
+          }}
+        >
+          <CustomText>{!selectedExerciseType ? "Select Exercise Type" : selectedExerciseType.name}</CustomText>
+          <CustomIcon
+            iconProvider="Feather"
+            name={isExerciseTypeDropdownOpen ? "chevrons-up" : "chevrons-down"}
+            color="black"
+            iconSize={20}
+          />
+        </CustomButton>
+        {isExerciseTypeDropdownOpen && (
+          <View>
+            {state.exerciseTypeLookup.list?.length > 0 && (
+              <>
+                {state.exerciseTypeLookup.list.map((et: ExerciseType, idx: number) => (
+                  <Pressable
+                    onPress={() => {
+                      setSelectedExerciseType(et);
+                      setIsExerciseTypeDropdownOpen(false);
+                    }}
+                    key={idx}
+                    style={{ height: 25 }}
+                  >
+                    <CustomText>{et.name}</CustomText>
+                  </Pressable>
+                ))}
+              </>
+            )}
+          </View>
+        )}
+      </View>
+      <View
+        style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}
+      >
+        <CustomButton
+          buttonColor={"rgba(233, 233, 233, 1)"}
+          style={{ width: 200, justifyContent: "space-between", padding: 5 }}
+          onPress={() => {
+            setIsEquipmentTypeDropdownOpen(!isEquipmentTypeDropdownOpen);
+            isExerciseTypeDropdownOpen ? setIsExerciseTypeDropdownOpen(false) : null;
+          }}
+        >
+          <CustomText>{!selectedEquipmentType ? "Select Equipment Type" : selectedEquipmentType.name}</CustomText>
+          <CustomIcon
+            iconProvider="Feather"
+            name={isEquipmentTypeDropdownOpen ? "chevrons-up" : "chevrons-down"}
+            color="black"
+            iconSize={20}
+          />
+        </CustomButton>
+        {isEquipmentTypeDropdownOpen && (
+          <View>
+            {state.equipmentTypeLookup.list?.length > 0 && (
+              <>
+                {state.equipmentTypeLookup.list.map((et: EquipmentType, idx: number) => (
+                  <Pressable
+                    onPress={() => {
+                      setSelectedEquipmentType(et);
+                      setIsEquipmentTypeDropdownOpen(false);
+                    }}
+                    key={idx}
+                  >
+                    <CustomText>{et.name}</CustomText>
+                  </Pressable>
+                ))}
+              </>
+            )}
+          </View>
+        )}
+      </View>
+      <View
+        style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}
+      >
+        <CustomButton onPress={submitExercise} style={{ width: 200 }}>
+          <CustomText bold color="white">
+            Create exercise
+          </CustomText>
+        </CustomButton>
+      </View>
+    </>
+  );
 
   if (!state.exerciseLoaded) {
     return null;
@@ -296,7 +309,7 @@ const Exercises = () => {
             cardStyle={{ position: "absolute", height: "100%", width: "100%" }}
             title={"Add an exercise"}
             titleStyle={{ height: 45, fontSize: 20 }}
-            rows={addExerciseRows}
+            body={addExerciseBody}
             closeButton
             closeButtonOnPress={() => {
               setAddingExercise(false);

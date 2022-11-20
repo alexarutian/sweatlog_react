@@ -6,7 +6,9 @@ import CustomIcon from "./CustomIcon";
 type IndexCardProps = {
   title: string | React.ReactElement;
   titleStyle?: object;
-  rows: React.ReactElement[];
+  /*Either an array for rows of the index card, or a single element that represents the body*/
+  rows?: React.ReactElement[];
+  body?: React.ReactElement
   cardStyle?: object;
   closeButton?: boolean;
   closeButtonOnPress?: () => void;
@@ -14,7 +16,7 @@ type IndexCardProps = {
 };
 
 const IndexCard = (props: IndexCardProps) => {
-  const { title, titleStyle, rows, cardStyle, closeButton, closeButtonOnPress, noBodyLines = false } = props;
+  const { title, titleStyle, rows, cardStyle, closeButton, closeButtonOnPress, noBodyLines = false, body } = props;
 
   return (
     <View style={[styles.agendaCard, cardStyle]}>
@@ -34,12 +36,13 @@ const IndexCard = (props: IndexCardProps) => {
         title
       )}
       <View style={styles.redDividingLine}></View>
-      {rows.map((row, idx) => (
+      {rows && rows.map((row, idx) => (
         <View key={idx}>
           {row}
           {idx < rows.length - 1 && !noBodyLines && <View style={styles.dividingLine}></View>}
         </View>
       ))}
+      {body && body}
     </View>
   );
 };
