@@ -37,8 +37,6 @@ const Agenda = () => {
     return;
   };
 
-  console.log(state.sessionLookup.list)
-
   useEffect(() => {
     if (state.sessionLookup?.list?.length > 0) {
       findAllDates();
@@ -64,7 +62,6 @@ const Agenda = () => {
         initialDate={selectedDate}
         // initialDate={today.toDateString()}
         onDayPress={(date) => {
-          console.log(date.dateString)
           setSelectedDate(date.dateString);
         }}
         theme={{
