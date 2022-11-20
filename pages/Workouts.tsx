@@ -84,7 +84,9 @@ const Workouts = () => {
         ))}
       </View>
     </View>
-  );
+  ); else {
+    return <></>
+  }
 };
 
 export default Workouts;
