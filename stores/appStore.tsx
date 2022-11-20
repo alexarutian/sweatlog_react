@@ -436,6 +436,25 @@ export const AppContextProvider = (props: ProviderProps) => {
             }
           );
         break;
+        case "createSession":
+          const createSessionUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/sessions/";
+          postJSONFetch(createSessionUrl, action.payload)
+            .then((res) => {
+              return res.json();
+            })
+            .then(
+              (result) => {
+                dispatch({
+                  name: "getAllSessions",
+                  payload: { user_token: action.payload.user_token },
+                  user: action.user,
+                });
+                },
+              (error) => {
+                console.log(error.message);
+              }
+            );
+          break;
       default:
         innerDispatch(action);
     }
@@ -518,7 +537,7 @@ const assembleSessions = (incomingSessionList: IncomingSession[], state: typeof 
   let sessionMap: {[key: number]: Session} = {}
   let sessionList: Session[] = incomingSessionList.map((session: IncomingSession) => {
     let workout = state.workoutLookup.byId[session.workout.id];
-    let date = new Date(session.date)
+    let date = new Date(session.date.replace(/-/g, '\/'))
 
     // could also slice all this from the original session.date string from the server but seems fussier
     // even though this involves some unnecessary steps
