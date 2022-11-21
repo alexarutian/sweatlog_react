@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Pressable, StyleSheet } from "react-native";
+import { View, Pressable, StyleSheet, ScrollView } from "react-native";
 import CustomButton from "../components/CustomButton";
 import CustomIcon from "../components/CustomIcon";
 import CustomInput from "../components/CustomInput";
@@ -277,6 +277,7 @@ const Exercises = () => {
         </CustomButton>
         <Gap height={20} />
         <View style={styles.exerciseList}>
+        <ScrollView style={{width: "100%", paddingBottom: 20}}>
           {state.exerciseLookup.list.map((exercise: Exercise, idx: number) => (
             <View key={idx} style={styles.exerciseItem}>
               <Pressable
@@ -298,6 +299,7 @@ const Exercises = () => {
               </Pressable>
             </View>
           ))}
+          </ScrollView>
         </View>
         <IndexCard
           cardStyle={{ position: "absolute", bottom: 10 }}

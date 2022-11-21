@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
+    overflow: "hidden"
   },
   header: {
     height: 100,
@@ -175,10 +176,11 @@ const styles = StyleSheet.create({
   body: {
     flexGrow: 1,
     flexShrink: 1,
+    flexBasis: 500,
     width: "100%",
   },
   footer: {
-    flexGrow: 0,
+
     height: 80,
     paddingBottom: 15,
     width: "100%",

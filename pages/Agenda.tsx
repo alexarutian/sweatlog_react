@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import { Calendar, CalendarList, DateData } from "react-native-calendars";
 import CustomButton from "../components/CustomButton";
 import CustomIcon from "../components/CustomIcon";
@@ -122,6 +122,7 @@ const Agenda = () => {
             Add Session
           </CustomText>
         </CustomButton>
+        <ScrollView style={{width: "100%", paddingBottom: 20}}>
         {agendaDates &&
           agendaDates.map((date: string) => {
             return (
@@ -161,6 +162,7 @@ const Agenda = () => {
               </View>
             );
           })}
+          </ScrollView>
         {addingSession && (
           <IndexCard
             cardStyle={{ position: "absolute", height: "100%", width: "100%" }}
