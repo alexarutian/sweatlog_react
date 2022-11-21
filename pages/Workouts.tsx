@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import CustomIcon from "../components/CustomIcon";
 import CustomText from "../components/CustomText";
 import Gap from "../components/Gap";
@@ -14,13 +14,13 @@ const Workouts = () => {
     <View style={universalStyles.page}>
       <Gap height={20} />
       <View style={{ width: "100%", alignItems: "center" }}>
-        {state.workoutLookup.list.map((workout: Workout, idx: number) => (
-          <>
+      <ScrollView style={{width: "100%", paddingBottom: 20}}>
+        {state.workoutLookup.list.map((workout: Workout) => (
+          <React.Fragment key={workout.name}>
             <IndexCard
-              key={idx}
+              key={workout.name}
               title={workout.name}
               titleStyle={{textTransform: "uppercase", fontSize: 14 }}
-              // rows={[<></>]}
               rows={workout.blocks.map((block, bidx) =>
                 block.block.exercises.map((exercise, eidx) => (
                   <View
@@ -80,8 +80,9 @@ const Workouts = () => {
                 ))
               )}
             />
-          </>
+          </React.Fragment>
         ))}
+        </ScrollView>
       </View>
     </View>
   ); else {

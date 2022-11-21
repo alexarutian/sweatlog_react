@@ -23,9 +23,9 @@ const IndexCard = (props: IndexCardProps) => {
       {closeButton && (
         <Pressable
           onPress={closeButtonOnPress}
-          style={{ position: "absolute", top: 3, right: 3, height: 25, width: 25 }}
+          style={{ position: "absolute", top: 5, right: 5, height: 25, width: 25 }}
         >
-          <CustomIcon iconProvider="Ionicons" name="close" color="red" />
+          <CustomIcon iconProvider="Ionicons" name="close" color="#B97375" />
         </Pressable>
       )}
       {typeof title == "string" ? (
@@ -36,7 +36,7 @@ const IndexCard = (props: IndexCardProps) => {
         title
       )}
       <View style={styles.redDividingLine}></View>
-      {rows && rows.map((row, idx) => (
+      {rows && rows.map((row: React.ReactElement, idx: number) => (
         <View key={idx}>
           {row}
           {idx < rows.length - 1 && !noBodyLines && <View style={styles.dividingLine}></View>}

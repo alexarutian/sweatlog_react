@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import { Calendar, CalendarList, DateData } from "react-native-calendars";
 import CustomButton from "../components/CustomButton";
 import CustomIcon from "../components/CustomIcon";
@@ -37,8 +37,6 @@ const Agenda = () => {
     return;
   };
 
-  console.log(state.sessionLookup.list)
-
   useEffect(() => {
     if (state.sessionLookup?.list?.length > 0) {
       findAllDates();
@@ -64,7 +62,6 @@ const Agenda = () => {
         initialDate={selectedDate}
         // initialDate={today.toDateString()}
         onDayPress={(date) => {
-          console.log(date.dateString)
           setSelectedDate(date.dateString);
         }}
         theme={{
@@ -89,14 +86,14 @@ const Agenda = () => {
               <CustomText fontSize={18} style={{alignSelf: "flex-start", paddingLeft: 10}}>Select a workout: </CustomText>
       <View style={{width: "100%", flexDirection: "row", flexWrap: "wrap", paddingHorizontal: 20}}>
       {state.workoutLookup.list &&
-        state.workoutLookup.list.map((workout, idx) => {
+        state.workoutLookup.list.map((workout: Workout) => {
           return (
             <CustomButton
               style={{paddingHorizontal: 10, marginHorizontal: 10, marginVertical: 5, borderWidth: 1, borderColor: "#8DA9C4", backgroundColor: (workout == selectedWorkout ? "#8DA9C4" : "white")}}
               onPress={() => {
                 setSelectedWorkout(workout);
               }}
-              key={idx}
+              key={workout.name}
             >
               <CustomText>{workout.name}</CustomText>
             </CustomButton>
@@ -125,6 +122,7 @@ const Agenda = () => {
             Add Session
           </CustomText>
         </CustomButton>
+        <ScrollView style={{width: "100%", paddingBottom: 20}}>
         {agendaDates &&
           agendaDates.map((date: string) => {
             return (
@@ -164,6 +162,7 @@ const Agenda = () => {
               </View>
             );
           })}
+          </ScrollView>
         {addingSession && (
           <IndexCard
             cardStyle={{ position: "absolute", height: "100%", width: "100%" }}

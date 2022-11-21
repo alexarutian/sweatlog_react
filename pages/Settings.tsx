@@ -99,10 +99,10 @@ const Settings = () => {
       <View style={universalStyles.page}>
         <Gap height={10} />
         {settingsBackButton}
-        {list.map((item: ExerciseType | EquipmentType, idx: number) => {
+        {list.map((item: ExerciseType | EquipmentType) => {
           let isSelected = item === selected;
           return (
-            <View key={idx} style={styles.etListItem}>
+            <View key={item.name} style={styles.etListItem}>
               {!isSelected ? (
                 <Pressable
                   onPress={() => {
@@ -111,7 +111,7 @@ const Settings = () => {
                   }}
                   style={{ width: 200 }}
                 >
-                  <CustomText fontSize={16} key={idx}>
+                  <CustomText fontSize={16}>
                     {item.name}
                   </CustomText>
                 </Pressable>
