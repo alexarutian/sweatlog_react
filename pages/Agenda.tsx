@@ -86,14 +86,14 @@ const Agenda = () => {
               <CustomText fontSize={18} style={{alignSelf: "flex-start", paddingLeft: 10}}>Select a workout: </CustomText>
       <View style={{width: "100%", flexDirection: "row", flexWrap: "wrap", paddingHorizontal: 20}}>
       {state.workoutLookup.list &&
-        state.workoutLookup.list.map((workout, idx) => {
+        state.workoutLookup.list.map((workout: Workout) => {
           return (
             <CustomButton
               style={{paddingHorizontal: 10, marginHorizontal: 10, marginVertical: 5, borderWidth: 1, borderColor: "#8DA9C4", backgroundColor: (workout == selectedWorkout ? "#8DA9C4" : "white")}}
               onPress={() => {
                 setSelectedWorkout(workout);
               }}
-              key={idx}
+              key={workout.name}
             >
               <CustomText>{workout.name}</CustomText>
             </CustomButton>

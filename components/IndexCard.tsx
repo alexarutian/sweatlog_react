@@ -36,7 +36,7 @@ const IndexCard = (props: IndexCardProps) => {
         title
       )}
       <View style={styles.redDividingLine}></View>
-      {rows && rows.map((row, idx) => (
+      {rows && rows.map((row: React.ReactElement, idx: number) => (
         <View key={idx}>
           {row}
           {idx < rows.length - 1 && !noBodyLines && <View style={styles.dividingLine}></View>}

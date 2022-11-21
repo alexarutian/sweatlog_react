@@ -191,13 +191,13 @@ const Exercises = () => {
           <View>
             {state.exerciseTypeLookup.list?.length > 0 && (
               <>
-                {state.exerciseTypeLookup.list.map((et: ExerciseType, idx: number) => (
+                {state.exerciseTypeLookup.list.map((et: ExerciseType) => (
                   <Pressable
                     onPress={() => {
                       setSelectedExerciseType(et);
                       setIsExerciseTypeDropdownOpen(false);
                     }}
-                    key={idx}
+                    key={et.name}
                     style={{ height: 25 }}
                   >
                     <CustomText>{et.name}</CustomText>
@@ -231,13 +231,13 @@ const Exercises = () => {
           <View>
             {state.equipmentTypeLookup.list?.length > 0 && (
               <>
-                {state.equipmentTypeLookup.list.map((et: EquipmentType, idx: number) => (
+                {state.equipmentTypeLookup.list.map((et: EquipmentType) => (
                   <Pressable
                     onPress={() => {
                       setSelectedEquipmentType(et);
                       setIsEquipmentTypeDropdownOpen(false);
                     }}
-                    key={idx}
+                    key={et.name}
                   >
                     <CustomText>{et.name}</CustomText>
                   </Pressable>
@@ -278,8 +278,8 @@ const Exercises = () => {
         <Gap height={20} />
         <View style={styles.exerciseList}>
         <ScrollView style={{width: "100%", paddingBottom: 20}}>
-          {state.exerciseLookup.list.map((exercise: Exercise, idx: number) => (
-            <View key={idx} style={styles.exerciseItem}>
+          {state.exerciseLookup.list.map((exercise: Exercise) => (
+            <View key={exercise.name} style={styles.exerciseItem}>
               <Pressable
                 onPress={() => {
                   if (exercise == selectedExercise) {

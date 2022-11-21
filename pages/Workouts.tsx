@@ -15,10 +15,10 @@ const Workouts = () => {
       <Gap height={20} />
       <View style={{ width: "100%", alignItems: "center" }}>
       <ScrollView style={{width: "100%", paddingBottom: 20}}>
-        {state.workoutLookup.list.map((workout: Workout, idx: number) => (
-          <>
+        {state.workoutLookup.list.map((workout: Workout) => (
+          <React.Fragment key={workout.name}>
             <IndexCard
-              key={idx}
+              key={workout.name}
               title={workout.name}
               titleStyle={{textTransform: "uppercase", fontSize: 14 }}
               rows={workout.blocks.map((block, bidx) =>
@@ -80,7 +80,7 @@ const Workouts = () => {
                 ))
               )}
             />
-          </>
+          </React.Fragment>
         ))}
         </ScrollView>
       </View>

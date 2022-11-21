@@ -19,9 +19,9 @@ const Footer = ({ navOptions, buttonOnClick, activePage }: FooterProps) => {
   const styles = makeStyles();
   return (
     <>
-      {navOptions.map((option: NavOption, idx: number) => (
+      {navOptions.map((option: NavOption) => (
         <Pressable
-          key={idx}
+          key={option.name}
           onPress={() => {
             if (buttonOnClick) {
               buttonOnClick(option.name);
