@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Pressable } from "react-native";
 import { Calendar, CalendarList, DateData } from "react-native-calendars";
 import CustomButton from "../components/CustomButton";
 import CustomIcon from "../components/CustomIcon";
@@ -21,9 +21,9 @@ const Agenda = () => {
   const [selectedDate, setSelectedDate] = React.useState(today.toDateString());
 
   const clearAddFields = () => {
-    setSelectedWorkout(undefined)
-    setSelectedDate(today.toDateString())
-  }
+    setSelectedWorkout(undefined);
+    setSelectedDate(today.toDateString());
+  };
 
   const findAllDates = () => {
     let dateList: string[] = [];
@@ -52,11 +52,11 @@ const Agenda = () => {
       });
     }
     setAddingSession(false);
-    clearAddFields()
+    clearAddFields();
   }, [selectedDate, selectedWorkout]);
 
   const addingSessionBody = (
-    <View style={{flexDirection: "column", alignItems: "center"}}>
+    <View style={{ flexDirection: "column", alignItems: "center" }}>
       <Calendar
         style={{ width: 300 }}
         initialDate={selectedDate}
@@ -72,7 +72,7 @@ const Agenda = () => {
           selectedDayBackgroundColor: "#8DA9C4",
           dayTextColor: "#3C493F",
           monthTextColor: "#3C493F",
-          todayTextColor: "#B97375"
+          todayTextColor: "#B97375",
         }}
         hideArrows={false}
         renderArrow={(direction) => {
@@ -82,28 +82,39 @@ const Agenda = () => {
             return <CustomIcon name="keyboard-arrow-right" iconProvider="MaterialIcons" color="#B97375" />;
         }}
       />
-      <Gap height={10}/>
-              <CustomText fontSize={18} style={{alignSelf: "flex-start", paddingLeft: 10}}>Select a workout: </CustomText>
-      <View style={{width: "100%", flexDirection: "row", flexWrap: "wrap", paddingHorizontal: 20}}>
-      {state.workoutLookup.list &&
-        state.workoutLookup.list.map((workout: Workout) => {
-          return (
-            <CustomButton
-              style={{paddingHorizontal: 10, marginHorizontal: 10, marginVertical: 5, borderWidth: 1, borderColor: "#8DA9C4", backgroundColor: (workout == selectedWorkout ? "#8DA9C4" : "white")}}
-              onPress={() => {
-                setSelectedWorkout(workout);
-              }}
-              key={workout.name}
-            >
-              <CustomText>{workout.name}</CustomText>
-            </CustomButton>
-          );
-        })}
-        </View>
-        <Gap height={20}/>
+      <Gap height={10} />
+      <CustomText fontSize={18} style={{ alignSelf: "flex-start", paddingLeft: 10 }}>
+        Select a workout:{" "}
+      </CustomText>
+      <View style={{ width: "100%", flexDirection: "row", flexWrap: "wrap", paddingHorizontal: 20 }}>
+        {state.workoutLookup.list &&
+          state.workoutLookup.list.map((workout: Workout) => {
+            return (
+              <CustomButton
+                style={{
+                  paddingHorizontal: 10,
+                  marginHorizontal: 10,
+                  marginVertical: 5,
+                  borderWidth: 1,
+                  borderColor: "#8DA9C4",
+                  backgroundColor: workout == selectedWorkout ? "#8DA9C4" : "white",
+                }}
+                onPress={() => {
+                  setSelectedWorkout(workout);
+                }}
+                key={workout.name}
+              >
+                <CustomText>{workout.name}</CustomText>
+              </CustomButton>
+            );
+          })}
+      </View>
+      <Gap height={20} />
 
-      <CustomButton onPress={submitCreate} style={{width: 200}}>
-        <CustomText bold color="white">Add Session</CustomText>
+      <CustomButton onPress={submitCreate} style={{ width: 200 }}>
+        <CustomText bold color="white">
+          Add Session
+        </CustomText>
       </CustomButton>
     </View>
   );
@@ -122,47 +133,63 @@ const Agenda = () => {
             Add Session
           </CustomText>
         </CustomButton>
-        <ScrollView style={{width: "100%", paddingBottom: 20}}>
-        {agendaDates &&
-          agendaDates.map((date: string) => {
-            return (
-              <View key={date} style={styles.agendaCard}>
-                <CustomText fontSize={12} bold style={{ padding: 10, paddingBottom: 5 }}>
-                  {date}
-                </CustomText>
-                <View style={styles.redDividingLine}></View>
-                {state.sessionLookup.list.map(
-                  (session: Session, sidx) =>
-                    session.dateString == date && (
-                      <React.Fragment key={session.id}>
-                        <View
-                          style={{
-                            padding: 10,
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <CustomText>{session.workout.name}</CustomText>
-                          <CustomButton
-                            onPress={() => {
-                              alert("starting " + session.workout.name);
+        <ScrollView style={{ width: "100%", paddingBottom: 20 }}>
+          {agendaDates &&
+            agendaDates.map((date: string) => {
+              return (
+                <View key={date} style={styles.agendaCard}>
+                  <CustomText fontSize={12} bold style={{ padding: 10, paddingBottom: 5 }}>
+                    {date}
+                  </CustomText>
+                  <View style={styles.redDividingLine}></View>
+                  {state.sessionLookup.list.map(
+                    (session: Session, sidx) =>
+                      session.dateString == date && (
+                        <React.Fragment key={session.id}>
+                          <View
+                            style={{
+                              padding: 10,
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "space-between",
                             }}
-                            style={{ width: 20, height: 28, backgroundColor: "#8DA9C4" }}
                           >
-                            <CustomText fontSize={10} bold color={"white"}>
-                              START
-                            </CustomText>
-                          </CustomButton>
-                        </View>
-                        {sidx < state.sessionList.length - 1 && <View style={styles.dividingLine}></View>}
-                      </React.Fragment>
-                    )
-                )}
-              </View>
-            );
-          })}
-          </ScrollView>
+                            <CustomText>{session.workout.name}</CustomText>
+                            <CustomButton
+                              onPress={() => {
+                                alert("starting " + session.workout.name);
+                              }}
+                              style={{ width: 20, height: 28, backgroundColor: "#8DA9C4" }}
+                            >
+                              <CustomText fontSize={10} bold color={"white"}>
+                                START
+                              </CustomText>
+                            </CustomButton>
+                            <Pressable
+                              onPress={() => {
+                                dispatch({
+                                  name: "deleteSession",
+                                  payload: { itemId: session.id, user_token: state.userToken },
+                                  user: state.userId,
+                                });
+                              }}
+                            >
+                              <CustomIcon
+                                iconProvider="MaterialCommunityIcons"
+                                name="trash-can"
+                                iconSize={34}
+                                color="rgba(60, 73, 63, 0.3)"
+                              />
+                            </Pressable>
+                          </View>
+                          {sidx < state.sessionList.length - 1 && <View style={styles.dividingLine}></View>}
+                        </React.Fragment>
+                      )
+                  )}
+                </View>
+              );
+            })}
+        </ScrollView>
         {addingSession && (
           <IndexCard
             cardStyle={{ position: "absolute", height: "100%", width: "100%" }}
@@ -172,7 +199,7 @@ const Agenda = () => {
             closeButton
             closeButtonOnPress={() => {
               setAddingSession(false);
-              clearAddFields()
+              clearAddFields();
             }}
             noBodyLines
           />

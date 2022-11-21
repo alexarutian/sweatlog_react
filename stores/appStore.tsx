@@ -455,6 +455,26 @@ export const AppContextProvider = (props: ProviderProps) => {
               }
             );
           break;
+          case "deleteSession":
+            const deleteSessionUrl =
+              "http://192.168.0.186:8000/webapp/users/" + action.user + "/sessions/" + action.payload.itemId + "/";
+            deleteJSONFetch(deleteSessionUrl, action.payload)
+              .then((res) => {
+                return res.json();
+              })
+              .then(
+                (result) => {
+                  dispatch({
+                    name: "getAllSessions",
+                    payload: { user_token: action.payload.user_token },
+                    user: action.user,
+                  });
+                },
+                (error) => {
+                  console.log(error.message);
+                }
+              );
+            break;
       default:
         innerDispatch(action);
     }
