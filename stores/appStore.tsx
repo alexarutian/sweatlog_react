@@ -557,6 +557,7 @@ const assembleSessions = (incomingSessionList: IncomingSession[], state: typeof 
   let sessionMap: {[key: number]: Session} = {}
   let sessionList: Session[] = incomingSessionList.map((session: IncomingSession) => {
     let workout = state.workoutLookup.byId[session.workout.id];
+    // JS date object interprets "-" e.g. MM-DD-YYYY as UTC, so replace with "/"
     let date = new Date(session.date.replace(/-/g, '\/'))
 
     // could also slice all this from the original session.date string from the server but seems fussier
