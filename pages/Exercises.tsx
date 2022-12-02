@@ -14,6 +14,7 @@ const Exercises = () => {
   const { state, dispatch } = React.useContext(AppStore);
 
   const [selectedExercise, setSelectedExercise] = React.useState<Exercise>();
+  const [isEditingExercise, setIsEditingExercise] = React.useState(false)
 
   // sets initial value to detailed exercise view
   useEffect(() => {
@@ -100,6 +101,7 @@ const Exercises = () => {
         iconSize={34}
         style={{ padding: 5, marginHorizontal: 5 }}
       />
+      <Pressable onPress={() => {setIsEditingExercise(true)}}>
       <CustomIcon
         name="edit"
         iconProvider="MaterialIcons"
@@ -107,6 +109,7 @@ const Exercises = () => {
         iconSize={30}
         style={{ padding: 5, marginHorizontal: 5 }}
       />
+      </Pressable>
       <Pressable onPress={handleDelete}>
         <CustomIcon
           name="trash-can"
@@ -120,18 +123,18 @@ const Exercises = () => {
   ];
 
 
-  const [addingExercise, setAddingExercise] = React.useState(false);
+  const [isAddingExercise, setIsAddingExercise] = React.useState(false);
 
   
-  const [name, setName] = React.useState("");
-  const [description, setDescription] = React.useState("");
+  const [name, setName] = React.useState(isAddingExercise ? "" : selectedExercise?.name);
+  const [description, setDescription] = React.useState(isAddingExercise ? "" : selectedExercise?.description);
   const [selectedExerciseType, setSelectedExerciseType] = React.useState<ExerciseType>();
   const [selectedEquipmentType, setSelectedEquipmentType] = React.useState<EquipmentType>();
   const [isExerciseTypeDropdownOpen, setIsExerciseTypeDropdownOpen] = React.useState(false);
   const [isEquipmentTypeDropdownOpen, setIsEquipmentTypeDropdownOpen] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
 
-  const submitExercise = () => {
+  const submitCreateExercise = () => {
     if (!name) {
       setErrorMessage("name is required");
       return;
@@ -147,15 +150,33 @@ const Exercises = () => {
       payload.equipment_type_id = selectedEquipmentType.id;
     }
     dispatch({ name: "createExercise", payload: payload, user: state.userId });
-    setAddingExercise(false);
+    setIsAddingExercise(false);
   };
 
-  const addExerciseBody = (
+  const submitEditExercise = () => {
+    let payload = {user_token: state.userToken, itemId: selectedExercise?.id };
+    if (name !== selectedExercise?.name) {
+      payload.name = name
+    } 
+    if (description !== selectedExercise?.description) {
+      payload.description = description
+    }
+    if (selectedExerciseType !== selectedExercise?.exercise_type) {
+      payload.exercise_type_id = selectedExerciseType?.id;
+    }
+    if (selectedEquipmentType !== selectedExercise?.equipment_type) {
+      payload.equipment_type_id = selectedEquipmentType?.id;
+    }
+    dispatch({name: "editExercise", payload: payload, user: state.userId});
+    setIsEditingExercise(false)
+  }
+
+  const addEditExerciseBody = (
     <>
       <View
         style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}
       >
-        <CustomInput onChangeText={setName} value={name} placeholder="name" style={{ marginTop: 5 }} />
+        <CustomInput onChangeText={setName} defaultValue={isAddingExercise ? "" : selectedExercise?.name} placeholder={isAddingExercise ? "name" : selectedExercise?.name} style={{ marginTop: 5 }} />
       </View>
       ,
       <View
@@ -163,8 +184,9 @@ const Exercises = () => {
       >
         <CustomInput
           onChangeText={setDescription}
-          value={description}
-          placeholder="description"
+          defaultValue={isAddingExercise ? "" : selectedExercise?.description}
+          // value={description}
+          placeholder={(isAddingExercise || !selectedExercise?.description) ? "description": selectedExercise?.description}
           style={{ marginTop: 5 }}
         />
       </View>
@@ -250,9 +272,9 @@ const Exercises = () => {
       <View
         style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}
       >
-        <CustomButton onPress={submitExercise} style={{ width: 200 }}>
+        <CustomButton onPress={isAddingExercise ? submitCreateExercise : submitEditExercise} style={{ width: 200 }}>
           <CustomText bold color="white">
-            Create exercise
+            {isAddingExercise ? "Create exercise" : "Edit exercise"}
           </CustomText>
         </CustomButton>
       </View>
@@ -267,7 +289,7 @@ const Exercises = () => {
         <Gap height={20} />
         <CustomButton
           onPress={() => {
-            setAddingExercise(true);
+            setIsAddingExercise(true);
           }}
           style={{ width: 120 }}
         >
@@ -292,7 +314,7 @@ const Exercises = () => {
                 <CustomText
                   color={"#3C493F"}
                   bold={exercise == selectedExercise ? true : false}
-                  fontSize={exercise == selectedExercise ? 16 : 14}
+                  fontSize={exercise == selectedExercise ? 18 : 16}
                 >
                   {exercise.name}
                 </CustomText>
@@ -306,15 +328,15 @@ const Exercises = () => {
           title={selectedExerciseTitle}
           rows={selectedExerciseDetails}
         />
-        {addingExercise && (
+        {(isAddingExercise || isEditingExercise) && (
           <IndexCard
             cardStyle={{ position: "absolute", height: "100%", width: "100%" }}
-            title={"Add an exercise"}
+            title={isAddingExercise ? "Add an exercise" : "Edit " + selectedExercise?.name}
             titleStyle={{ height: 45, fontSize: 20 }}
-            body={addExerciseBody}
+            body={addEditExerciseBody}
             closeButton
             closeButtonOnPress={() => {
-              setAddingExercise(false);
+              isAddingExercise ? setIsAddingExercise(false): setIsEditingExercise(false);
             }}
             noBodyLines
           />
@@ -326,7 +348,7 @@ const Exercises = () => {
 
 const styles = StyleSheet.create({
   exerciseList: { width: "100%", alignItems: "flex-start" },
-  exerciseItem: { flexDirection: "column", justifyContent: "flex-start", width: "100%", margin: 5 },
+  exerciseItem: { flexDirection: "column", justifyContent: "flex-start", width: "100%", margin: 10 },
   dividingLine: { width: "100%", height: 1, backgroundColor: "gray" },
 });
 
