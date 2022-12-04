@@ -284,12 +284,6 @@ const Settings = () => {
             )}
           </View>
         </View>
-        <View style={[styles.section, { padding: 10 }]}>
-          <CustomText bold>Re-pull data</CustomText>
-          <Pressable onPress={() => {}}>
-            <CustomIcon name="refresh-outline" iconProvider="Ionicons" color="black" />
-          </Pressable>
-        </View>
       </View>
     );
   }
