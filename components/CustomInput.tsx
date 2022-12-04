@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, StyleSheet, TextInput, StyleProp, ViewProps } from "react-native";
+import { colors } from "../utilities/stylevars";
 
 type CustomInputProps = {
   fontSize?: number;
@@ -37,7 +38,7 @@ const makeStyles = (fontSize: number, width: number) => {
   return StyleSheet.create({
     input: {
       fontSize: fontSize,
-      backgroundColor: "rgba(233, 233, 233, 1)",
+      backgroundColor: colors.lightGrayTheme,
       borderRadius: 5,
       height: 30,
       width: width,
