@@ -10,7 +10,7 @@ export type CustomTextProps = {
     style?: object
 }
  
-const CustomText = ({fontSize = 14, bold = false, italic = false, color = "#3C493F", children, style}: CustomTextProps) => {
+const CustomText = ({fontSize = 16, bold = false, italic = false, color = "#3C493F", children, style}: CustomTextProps) => {
     const styles = makeStyles(fontSize, bold, italic, color)
     return (<Text style={[styles.text, style]}>{children}</Text>)
 }

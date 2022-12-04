@@ -7,6 +7,8 @@ export function getJSONFetch(url, params) {
   if (params.json !== undefined) {
     params.json = JSON.stringify(params.json);
   }
+  // url = new URL(url, document.location);
+  // url.search = new URLSearchParams(params).toString();
 
   url = url + "?" + new URLSearchParams(params).toString();
 

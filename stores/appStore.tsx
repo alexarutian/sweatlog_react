@@ -371,6 +371,25 @@ export const AppContextProvider = (props: ProviderProps) => {
             }
           );
         break;
+        case "editExercise":
+          const editExerciseUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercises/" + action.payload.itemId + "/";
+          putJSONFetch(editExerciseUrl, action.payload)
+            .then((res) => {
+              return res.json();
+            })
+            .then(
+              (result) => {
+                dispatch({
+                  name: "getAllExercises",
+                  payload: { user_token: action.payload.user_token },
+                  user: action.user,
+                });
+              },
+              (error) => {
+                console.log(error.message);
+              }
+            );
+          break;
       case "deleteExercise":
         const deleteExerciseUrl =
           "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercises/" + action.payload.itemId + "/";
