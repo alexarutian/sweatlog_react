@@ -84,7 +84,7 @@ const Agenda = () => {
       />
       <Gap height={10} />
       <CustomText fontSize={18} style={{ alignSelf: "flex-start", paddingLeft: 10 }}>
-        Select a workout:{" "}
+        Select a workout:
       </CustomText>
       <View style={{ width: "100%", flexDirection: "row", flexWrap: "wrap", paddingHorizontal: 20 }}>
         {state.workoutLookup.list &&

@@ -16,7 +16,7 @@ type CustomInputProps = {
 
 };
 
-const CustomInput = ({ fontSize = 14, width = 200, style, onChangeText, value, defaultValue, placeholder, isPassword, editable=true, onFocus }: CustomInputProps) => {
+const CustomInput = ({ fontSize = 16, width = 200, style, onChangeText, value, defaultValue, placeholder, isPassword, editable=true, onFocus }: CustomInputProps) => {
   const styles = makeStyles(fontSize, width);
   return (
     <TextInput
