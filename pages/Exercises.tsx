@@ -134,6 +134,18 @@ const Exercises = () => {
   const [isEquipmentTypeDropdownOpen, setIsEquipmentTypeDropdownOpen] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
 
+  useEffect(() => {
+    if (isEditingExercise) {
+      setSelectedExerciseType(selectedExercise?.exercise_type)
+      setSelectedEquipmentType(selectedExercise?.equipment_type)  
+    }
+    if (isAddingExercise) {
+      setSelectedExerciseType(undefined)
+      setSelectedEquipmentType(undefined)
+
+    }
+  }, [isEditingExercise, isAddingExercise, selectedExercise, setSelectedEquipmentType, setSelectedExerciseType])
+
   const submitCreateExercise = () => {
     if (!name) {
       setErrorMessage("name is required");
@@ -161,12 +173,9 @@ const Exercises = () => {
     if (description !== selectedExercise?.description) {
       payload.description = description
     }
-    if (selectedExerciseType !== selectedExercise?.exercise_type) {
+    // always send exercise_type_id and equipment_type_id = if none, then will not attach
       payload.exercise_type_id = selectedExerciseType?.id;
-    }
-    if (selectedEquipmentType !== selectedExercise?.equipment_type) {
       payload.equipment_type_id = selectedEquipmentType?.id;
-    }
     dispatch({name: "editExercise", payload: payload, user: state.userId});
     setIsEditingExercise(false)
   }
