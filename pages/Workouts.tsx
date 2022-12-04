@@ -6,7 +6,7 @@ import Gap from "../components/Gap";
 import IndexCard from "../components/IndexCard";
 import { AppStore } from "../stores/appStore";
 import { Workout } from "../stores/types";
-import { universalStyles } from "../utilities/stylevars";
+import { colors, universalStyles } from "../utilities/stylevars";
 
 const Workouts = () => {
   const { state, dispatch } = React.useContext(AppStore);
@@ -42,7 +42,7 @@ const Workouts = () => {
                           height: 40,
                         }}
                       >
-                        <View style={{position: "absolute", top: -4, alignItems: "center", justifyContent: "center", width: 50, height: 40}}><CustomIcon name="weight" iconProvider="MaterialCommunityIcons" iconSize={40} color={"rgba(60, 73, 63, 0.1)"} /></View>
+                        <View style={{position: "absolute", top: -4, alignItems: "center", justifyContent: "center", width: 50, height: 40}}><CustomIcon name="weight" iconProvider="MaterialCommunityIcons" iconSize={40} color={colors.moreTransparentGreenTheme} /></View>
                         <View style={{position: "absolute", alignItems: "center", justifyContent: "center", width: 50, height: 40}}><CustomText fontSize={13}>{exercise.stats?.weight_lb}</CustomText></View>
                       </View>
                     )}
@@ -51,7 +51,7 @@ const Workouts = () => {
                         style={{
                           width: 50,
                           height: 23,
-                          backgroundColor: "rgba(60, 73, 63, 0.1)",
+                          backgroundColor: colors.moreTransparentGreenTheme,
                           borderRadius: 5,
                           alignItems: "center",
                           justifyContent: "center",
@@ -67,7 +67,7 @@ const Workouts = () => {
                         style={{
                           width: 50,
                           height: 23,
-                          backgroundColor: "rgba(60, 73, 63, 0.1)",
+                          backgroundColor: colors.moreTransparentGreenTheme,
                           borderRadius: 5,
                           alignItems: "center",
                           justifyContent: "center",

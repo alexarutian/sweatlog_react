@@ -8,7 +8,7 @@ import Gap from "../components/Gap";
 import IndexCard from "../components/IndexCard";
 import { AppStore } from "../stores/appStore";
 import { Session, Workout } from "../stores/types";
-import { universalStyles } from "../utilities/stylevars";
+import { colors, universalStyles } from "../utilities/stylevars";
 
 const Agenda = () => {
   const { state, dispatch } = React.useContext(AppStore);
@@ -69,17 +69,17 @@ const Agenda = () => {
           textDayFontFamily: "Inter",
           textMonthFontFamily: "Inter",
           textDayHeaderFontFamily: "Inter",
-          selectedDayBackgroundColor: "#8DA9C4",
-          dayTextColor: "#3C493F",
-          monthTextColor: "#3C493F",
-          todayTextColor: "#B97375",
+          selectedDayBackgroundColor: colors.blueTheme,
+          dayTextColor: colors.darkGreenTheme,
+          monthTextColor: colors.darkGreenTheme,
+          todayTextColor: colors.redTheme,
         }}
         hideArrows={false}
         renderArrow={(direction) => {
           if (direction == "left")
-            return <CustomIcon name="keyboard-arrow-left" iconProvider="MaterialIcons" color="#B97375" />;
+            return <CustomIcon name="keyboard-arrow-left" iconProvider="MaterialIcons" color={colors.redTheme} />;
           if (direction == "right")
-            return <CustomIcon name="keyboard-arrow-right" iconProvider="MaterialIcons" color="#B97375" />;
+            return <CustomIcon name="keyboard-arrow-right" iconProvider="MaterialIcons" color={colors.redTheme} />;
         }}
       />
       <Gap height={10} />
@@ -96,8 +96,8 @@ const Agenda = () => {
                   marginHorizontal: 10,
                   marginVertical: 5,
                   borderWidth: 1,
-                  borderColor: "#8DA9C4",
-                  backgroundColor: workout == selectedWorkout ? "#8DA9C4" : "white",
+                  borderColor: colors.blueTheme,
+                  backgroundColor: workout == selectedWorkout ? colors.blueTheme : "white",
                 }}
                 onPress={() => {
                   setSelectedWorkout(workout);
@@ -159,7 +159,7 @@ const Agenda = () => {
                               onPress={() => {
                                 alert("starting " + session.workout.name);
                               }}
-                              style={{ width: 20, height: 28, backgroundColor: "#8DA9C4" }}
+                              style={{ width: 20, height: 28, backgroundColor: colors.blueTheme }}
                             >
                               <CustomText fontSize={10} bold color={"white"}>
                                 START
@@ -178,7 +178,7 @@ const Agenda = () => {
                                 iconProvider="MaterialCommunityIcons"
                                 name="trash-can"
                                 iconSize={34}
-                                color="rgba(60, 73, 63, 0.3)"
+                                color={colors.transparentGreenTheme}
                               />
                             </Pressable>
                           </View>
@@ -228,8 +228,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 6,
   },
-  redDividingLine: { width: "100%", height: 1, backgroundColor: "#B97375" },
-  dividingLine: { width: "100%", height: 1, backgroundColor: "#8DA9C4", opacity: 0.45 },
+  redDividingLine: { width: "100%", height: 1, backgroundColor: colors.redTheme },
+  dividingLine: { width: "100%", height: 1, backgroundColor: colors.blueTheme, opacity: 0.45 },
 });
 
 export default Agenda;

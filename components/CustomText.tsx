@@ -1,5 +1,6 @@
 import React from "react";
 import {Text, StyleSheet} from "react-native";
+import { colors } from "../utilities/stylevars";
 
 export type CustomTextProps = {
     fontSize?: number,
@@ -10,7 +11,7 @@ export type CustomTextProps = {
     style?: object
 }
  
-const CustomText = ({fontSize = 16, bold = false, italic = false, color = "#3C493F", children, style}: CustomTextProps) => {
+const CustomText = ({fontSize = 16, bold = false, italic = false, color = colors.darkGreenTheme, children, style}: CustomTextProps) => {
     const styles = makeStyles(fontSize, bold, italic, color)
     return (<Text style={[styles.text, style]}>{children}</Text>)
 }

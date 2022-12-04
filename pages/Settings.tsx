@@ -7,7 +7,7 @@ import CustomText from "../components/CustomText";
 import Gap from "../components/Gap";
 import { AppStore } from "../stores/appStore";
 import { EquipmentType, ExerciseType } from "../stores/types";
-import { universalStyles } from "../utilities/stylevars";
+import { colors, universalStyles } from "../utilities/stylevars";
 
 const Settings = () => {
   const { state, dispatch } = useContext(AppStore);
@@ -136,7 +136,7 @@ const Settings = () => {
                     }}
                     style={{ width: 50, alignItems: "center", justifyContent: "center" }}
                   >
-                    <CustomIcon name="edit" iconProvider="MaterialIcons" color="rgba(60, 73, 63, 0.3)" iconSize={30} />
+                    <CustomIcon name="edit" iconProvider="MaterialIcons" color={colors.transparentGreenTheme} iconSize={30} />
                   </Pressable>
                 )}
                 <Pressable
@@ -149,7 +149,7 @@ const Settings = () => {
                     iconProvider="MaterialCommunityIcons"
                     name="trash-can"
                     iconSize={34}
-                    color="rgba(60, 73, 63, 0.3)"
+                    color={colors.transparentGreenTheme}
                   />
                 </Pressable>
               </View>
@@ -168,7 +168,7 @@ const Settings = () => {
                   iconProvider="MaterialCommunityIcons"
                   name="trash-can"
                   iconSize={34}
-                  color="rgba(60, 73, 63, 0.3)"
+                  color={colors.transparentGreenTheme}
                 />
               </Pressable>
             </View>

@@ -8,7 +8,7 @@ import Gap from "../components/Gap";
 import IndexCard from "../components/IndexCard";
 import { AppStore } from "../stores/appStore";
 import { EquipmentType, Exercise, ExerciseType } from "../stores/types";
-import { universalStyles } from "../utilities/stylevars";
+import { colors, universalStyles } from "../utilities/stylevars";
 
 const Exercises = () => {
   const { state, dispatch } = React.useContext(AppStore);
@@ -45,13 +45,13 @@ const Exercises = () => {
             minWidth: 50,
             borderRadius: 5,
             paddingHorizontal: 5,
-            backgroundColor: "rgba(60, 73, 63, 0.1)",
+            backgroundColor: colors.moreTransparentGreenTheme,
             alignItems: "center",
             justifyContent: "center",
             marginRight: 10,
           }}
         >
-          <CustomText fontSize={12} color={"#3C493F"}>
+          <CustomText fontSize={12}>
             {selectedExercise?.equipment_type?.name}
           </CustomText>
         </View>
@@ -61,13 +61,13 @@ const Exercises = () => {
             minWidth: 50,
             borderRadius: 5,
             paddingHorizontal: 5,
-            backgroundColor: "rgba(60, 73, 63, 0.1)",
+            backgroundColor: colors.moreTransparentGreenTheme,
             alignItems: "center",
             justifyContent: "center",
             marginRight: 10,
           }}
         >
-          <CustomText fontSize={12} color={"#3C493F"}>
+          <CustomText fontSize={12}>
             {selectedExercise?.exercise_type?.name}
           </CustomText>
         </View>
@@ -77,12 +77,12 @@ const Exercises = () => {
 
   const selectedExerciseDetails = [
     <View style={{ minHeight: 30, padding: 5 }}>
-      <CustomText color={"#3C493F"} italic>
+      <CustomText  italic>
         {selectedExercise?.description || "No description yet..."}
       </CustomText>
     </View>,
     <View style={{ height: 30, padding: 5 }}>
-      <CustomText color={"#3C493F"}>Used in 5 workouts and 25 sessions</CustomText>
+      <CustomText>Used in 5 workouts and 25 sessions</CustomText>
     </View>,
     <View
       style={{
@@ -97,7 +97,7 @@ const Exercises = () => {
       <CustomIcon
         name="plus-thick"
         iconProvider="MaterialCommunityIcons"
-        color="rgba(60, 73, 63, 0.3)"
+        color={colors.transparentGreenTheme}
         iconSize={34}
         style={{ padding: 5, marginHorizontal: 5 }}
       />
@@ -105,7 +105,7 @@ const Exercises = () => {
       <CustomIcon
         name="edit"
         iconProvider="MaterialIcons"
-        color="rgba(60, 73, 63, 0.3)"
+        color={colors.transparentGreenTheme}
         iconSize={30}
         style={{ padding: 5, marginHorizontal: 5 }}
       />
@@ -114,7 +114,7 @@ const Exercises = () => {
         <CustomIcon
           name="trash-can"
           iconProvider="MaterialCommunityIcons"
-          color="rgba(60, 73, 63, 0.3)"
+          color={colors.transparentGreenTheme}
           iconSize={30}
           style={{ padding: 5, marginLeft: 5 }}
         />
@@ -203,7 +203,7 @@ const Exercises = () => {
         style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}
       >
         <CustomButton
-          buttonColor={"rgba(233, 233, 233, 1)"}
+          buttonColor={colors.lightGrayTheme}
           style={{ width: 200, justifyContent: "space-between", padding: 5 }}
           onPress={() => {
             setIsExerciseTypeDropdownOpen(!isExerciseTypeDropdownOpen);
@@ -243,7 +243,7 @@ const Exercises = () => {
         style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}
       >
         <CustomButton
-          buttonColor={"rgba(233, 233, 233, 1)"}
+          buttonColor={colors.lightGrayTheme}
           style={{ width: 200, justifyContent: "space-between", padding: 5 }}
           onPress={() => {
             setIsEquipmentTypeDropdownOpen(!isEquipmentTypeDropdownOpen);
@@ -321,7 +321,7 @@ const Exercises = () => {
                 }}
               >
                 <CustomText
-                  color={"#3C493F"}
+                  color={colors.darkGreenTheme}
                   bold={exercise == selectedExercise ? true : false}
                   fontSize={exercise == selectedExercise ? 18 : 16}
                 >
