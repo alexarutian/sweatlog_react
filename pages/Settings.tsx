@@ -111,7 +111,7 @@ const Settings = () => {
                   }}
                   style={{ width: 200 }}
                 >
-                  <CustomText fontSize={16}>
+                  <CustomText fontSize={16} style={{ padding: 5 }}>
                     {item.name}
                   </CustomText>
                 </Pressable>
@@ -126,7 +126,7 @@ const Settings = () => {
               <View style={styles.etListItemButtons}>
                 {isSelected ? (
                   <Pressable onPress={submitEdit} style={{ width: 50, alignItems: "center", justifyContent: "center" }}>
-                    <CustomIcon iconProvider="Feather" name="check" iconSize={25} color="green" />
+                    <CustomIcon iconProvider="Feather" name="check" iconSize={25} color={colors.greenTheme} />
                   </Pressable>
                 ) : (
                   <Pressable
@@ -136,7 +136,12 @@ const Settings = () => {
                     }}
                     style={{ width: 50, alignItems: "center", justifyContent: "center" }}
                   >
-                    <CustomIcon name="edit" iconProvider="MaterialIcons" color={colors.transparentGreenTheme} iconSize={30} />
+                    <CustomIcon
+                      name="edit"
+                      iconProvider="MaterialIcons"
+                      color={colors.transparentGreenTheme}
+                      iconSize={30}
+                    />
                   </Pressable>
                 )}
                 <Pressable
@@ -161,7 +166,7 @@ const Settings = () => {
             <CustomInput value={name} placeholder={"enter name here"} onChangeText={setName} />
             <View style={styles.etListItemButtons}>
               <Pressable onPress={submitCreate} style={{ width: 50, alignItems: "center", justifyContent: "center" }}>
-                <CustomIcon iconProvider="Feather" name="check" iconSize={25} color="green" />
+                <CustomIcon iconProvider="Feather" name="check" iconSize={25} color={colors.greenTheme} />
               </Pressable>
               <Pressable onPress={hideCreateGUI} style={{ width: 50, alignItems: "center", justifyContent: "center" }}>
                 <CustomIcon
@@ -235,7 +240,7 @@ const Settings = () => {
                     setCreateNewUser(!createNewUser);
                   }}
                 >
-                  <CustomText bold color={"green"}>
+                  <CustomText bold color={colors.greenTheme}>
                     {loginCreateTextPrompt}
                   </CustomText>
                 </Pressable>

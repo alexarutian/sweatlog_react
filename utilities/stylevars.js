@@ -10,6 +10,7 @@ const offWhite = "#FCF6EE";
 
 // coolor themes
 const blueTheme = "#8DA9C4";
+const greenTheme = "#59A96A";
 const darkGreenTheme = "#3C493F";
 const redTheme = "#B97375";
 const transparentGreenTheme = "rgba(60, 73, 63, 0.3)";
@@ -30,6 +31,7 @@ export const colors = {
   transparentGreenTheme,
   moreTransparentGreenTheme,
   lightGrayTheme,
+  greenTheme,
 };
 
 export const leftFlexColumn = {
