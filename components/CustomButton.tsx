@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, StyleSheet, Pressable, ViewProps } from "react-native";
+import { colors } from "../utilities/stylevars";
 import CustomText from "./CustomText";
 
 type CustomButtonProps = {
@@ -10,7 +11,7 @@ type CustomButtonProps = {
 };
 
 const CustomButton = (props: CustomButtonProps) => {
-  const { buttonColor = "green", children, onPress, style } = props;
+  const { buttonColor = colors.greenTheme, children, onPress, style } = props;
   const styles = makeStyles(buttonColor);
   return (
     <Pressable onPress={onPress} style={[styles.button, style]}>

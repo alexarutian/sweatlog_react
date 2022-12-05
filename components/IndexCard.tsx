@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Pressable } from "react-native";
 import CustomText from "../components/CustomText";
+import { colors } from "../utilities/stylevars";
 import CustomIcon from "./CustomIcon";
 
 type IndexCardProps = {
@@ -25,7 +26,7 @@ const IndexCard = (props: IndexCardProps) => {
           onPress={closeButtonOnPress}
           style={{ position: "absolute", top: 5, right: 5, height: 25, width: 25 }}
         >
-          <CustomIcon iconProvider="Ionicons" name="close" color="#B97375" />
+          <CustomIcon iconProvider="Ionicons" name="close" color={colors.redTheme} />
         </Pressable>
       )}
       {typeof title == "string" ? (
@@ -57,8 +58,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 6,
   },
-  redDividingLine: { width: "100%", height: 1, backgroundColor: "#B97375" },
-  dividingLine: { width: "100%", height: 1, backgroundColor: "#8DA9C4", opacity: 0.45 },
+  redDividingLine: { width: "100%", height: 1, backgroundColor: colors.redTheme },
+  dividingLine: { width: "100%", height: 1, backgroundColor: colors.blueTheme, opacity: 0.45 },
 });
 
 export default IndexCard;

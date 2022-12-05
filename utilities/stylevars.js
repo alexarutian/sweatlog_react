@@ -8,7 +8,31 @@ const lightBeigeColor = "#F9EDDC";
 const grayColor = "#D6D6D6";
 const offWhite = "#FCF6EE";
 
-export const colors = { goldColor, redColor, greenColor, beigeColor, lightBeigeColor, grayColor, offWhite };
+// coolor themes
+const blueTheme = "#8DA9C4";
+const greenTheme = "#59A96A";
+const darkGreenTheme = "#3C493F";
+const redTheme = "#B97375";
+const transparentGreenTheme = "rgba(60, 73, 63, 0.3)";
+const moreTransparentGreenTheme = "rgba(60, 73, 63, 0.1)";
+const lightGrayTheme = "#e9e9e9";
+
+export const colors = {
+  goldColor,
+  redColor,
+  greenColor,
+  beigeColor,
+  lightBeigeColor,
+  grayColor,
+  offWhite,
+  blueTheme,
+  darkGreenTheme,
+  redTheme,
+  transparentGreenTheme,
+  moreTransparentGreenTheme,
+  lightGrayTheme,
+  greenTheme,
+};
 
 export const leftFlexColumn = {
   flexDirection: "column",

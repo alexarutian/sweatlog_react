@@ -9,6 +9,7 @@ import Settings from "./pages/Settings";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppContextProvider, AppStore } from "./stores/appStore";
 import * as Font from "expo-font";
+import { colors } from "./utilities/stylevars";
 
 const AppInner = () => {
   const { state, dispatch } = React.useContext(AppStore);
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
   header: {
     height: 100,
     width: "100%",
-    backgroundColor: "green",
+    backgroundColor: colors.greenTheme,
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-end",
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
     height: 80,
     paddingBottom: 15,
     width: "100%",
-    backgroundColor: "green",
+    backgroundColor: colors.greenTheme,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",

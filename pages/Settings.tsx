@@ -7,7 +7,7 @@ import CustomText from "../components/CustomText";
 import Gap from "../components/Gap";
 import { AppStore } from "../stores/appStore";
 import { EquipmentType, ExerciseType } from "../stores/types";
-import { universalStyles } from "../utilities/stylevars";
+import { colors, universalStyles } from "../utilities/stylevars";
 
 const Settings = () => {
   const { state, dispatch } = useContext(AppStore);
@@ -111,7 +111,7 @@ const Settings = () => {
                   }}
                   style={{ width: 200 }}
                 >
-                  <CustomText fontSize={16}>
+                  <CustomText fontSize={16} style={{ padding: 5 }}>
                     {item.name}
                   </CustomText>
                 </Pressable>
@@ -126,7 +126,7 @@ const Settings = () => {
               <View style={styles.etListItemButtons}>
                 {isSelected ? (
                   <Pressable onPress={submitEdit} style={{ width: 50, alignItems: "center", justifyContent: "center" }}>
-                    <CustomIcon iconProvider="Feather" name="check" iconSize={25} color="green" />
+                    <CustomIcon iconProvider="Feather" name="check" iconSize={25} color={colors.greenTheme} />
                   </Pressable>
                 ) : (
                   <Pressable
@@ -136,7 +136,12 @@ const Settings = () => {
                     }}
                     style={{ width: 50, alignItems: "center", justifyContent: "center" }}
                   >
-                    <CustomIcon name="edit" iconProvider="MaterialIcons" color="rgba(60, 73, 63, 0.3)" iconSize={30} />
+                    <CustomIcon
+                      name="edit"
+                      iconProvider="MaterialIcons"
+                      color={colors.transparentGreenTheme}
+                      iconSize={30}
+                    />
                   </Pressable>
                 )}
                 <Pressable
@@ -149,7 +154,7 @@ const Settings = () => {
                     iconProvider="MaterialCommunityIcons"
                     name="trash-can"
                     iconSize={34}
-                    color="rgba(60, 73, 63, 0.3)"
+                    color={colors.transparentGreenTheme}
                   />
                 </Pressable>
               </View>
@@ -161,14 +166,14 @@ const Settings = () => {
             <CustomInput value={name} placeholder={"enter name here"} onChangeText={setName} />
             <View style={styles.etListItemButtons}>
               <Pressable onPress={submitCreate} style={{ width: 50, alignItems: "center", justifyContent: "center" }}>
-                <CustomIcon iconProvider="Feather" name="check" iconSize={25} color="green" />
+                <CustomIcon iconProvider="Feather" name="check" iconSize={25} color={colors.greenTheme} />
               </Pressable>
               <Pressable onPress={hideCreateGUI} style={{ width: 50, alignItems: "center", justifyContent: "center" }}>
                 <CustomIcon
                   iconProvider="MaterialCommunityIcons"
                   name="trash-can"
                   iconSize={34}
-                  color="rgba(60, 73, 63, 0.3)"
+                  color={colors.transparentGreenTheme}
                 />
               </Pressable>
             </View>
@@ -235,7 +240,7 @@ const Settings = () => {
                     setCreateNewUser(!createNewUser);
                   }}
                 >
-                  <CustomText bold color={"green"}>
+                  <CustomText bold color={colors.greenTheme}>
                     {loginCreateTextPrompt}
                   </CustomText>
                 </Pressable>
@@ -283,12 +288,6 @@ const Settings = () => {
               </>
             )}
           </View>
-        </View>
-        <View style={[styles.section, { padding: 10 }]}>
-          <CustomText bold>Re-pull data</CustomText>
-          <Pressable onPress={() => {}}>
-            <CustomIcon name="refresh-outline" iconProvider="Ionicons" color="black" />
-          </Pressable>
         </View>
       </View>
     );
