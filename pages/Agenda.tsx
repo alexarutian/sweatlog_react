@@ -32,7 +32,11 @@ const Agenda = () => {
         dateList.push(session.dateString);
       }
     }
-    dateList.sort();
+    dateList.sort((a, b) => {
+      let datesA = new Date(a)
+      let datesB = new Date(b)
+      return datesA.valueOf() - datesB.valueOf()
+    });
     setAgendaDates(dateList);
     return;
   };

@@ -581,10 +581,10 @@ const assembleSessions = (incomingSessionList: IncomingSession[], state: typeof 
 
     // could also slice all this from the original session.date string from the server but seems fussier
     // even though this involves some unnecessary steps
-    const m = date.getMonth() + 1
-    const mm = m < 10 ? " "+ m : m
-    const d = date.getDate()
-    const dd = d < 10 ? " "+ d : d
+    const mm = date.getMonth() + 1
+    // const mm = m < 10 ? " "+ m : m
+    const dd = date.getDate()
+    // const dd = d < 10 ? " "+ d : d
     const yyyy = date.getFullYear()
     const dateString = mm + "/" + dd + "/" + yyyy
 
