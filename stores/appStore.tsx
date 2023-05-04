@@ -116,7 +116,7 @@ export const AppContextProvider = (props: ProviderProps) => {
   const dispatch = React.useCallback((action: ReducerAction) => {
     switch (action.name) {
       case "asyncLoginUser":
-        postJSONFetch("http://192.168.0.186:8000/webapp/users/login2/", action.payload)
+        postJSONFetch("http://127.0.0.1:8000/webapp/users/login2/", action.payload)
           .then((res) => {
             return res.json();
           })
@@ -138,7 +138,7 @@ export const AppContextProvider = (props: ProviderProps) => {
           );
         break;
       case "asyncCreateUser":
-        postJSONFetch("http://192.168.0.186:8000/webapp/users/", action.payload)
+        postJSONFetch("http://127.0.0.1:8000/webapp/users/", action.payload)
           .then((res) => {
             return res.json();
           })
@@ -179,7 +179,7 @@ export const AppContextProvider = (props: ProviderProps) => {
         }
         break;
       case "getAllExerciseTypes":
-        getJSONFetch("http://192.168.0.186:8000/webapp/exercisetypes/", action.payload)
+        getJSONFetch("http://127.0.0.1:8000/webapp/exercisetypes/", action.payload)
           .then((res) => {
             return res.json();
           })
@@ -202,7 +202,7 @@ export const AppContextProvider = (props: ProviderProps) => {
           );
         break;
         case "createExerciseType":
-          const createExerciseTypeUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercisetypes/";
+          const createExerciseTypeUrl = "http://127.0.0.1:8000/webapp/users/" + action.user + "/exercisetypes/";
           postJSONFetch(createExerciseTypeUrl, action.payload)
             .then((res) => {
               return res.json();
@@ -221,7 +221,7 @@ export const AppContextProvider = (props: ProviderProps) => {
           break;
       case "deleteExerciseType":
         const deleteExerciseTypeUrl =
-          "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercisetypes/" + action.payload.itemId + "/";
+          "http://127.0.0.1:8000/webapp/users/" + action.user + "/exercisetypes/" + action.payload.itemId + "/";
         deleteJSONFetch(deleteExerciseTypeUrl, action.payload)
           .then((res) => {
             return res.json();
@@ -240,7 +240,7 @@ export const AppContextProvider = (props: ProviderProps) => {
         break;
       case "editExerciseType":
         const editExerciseTypeUrl =
-          "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercisetypes/" + action.payload.itemId + "/";
+          "http://127.0.0.1:8000/webapp/users/" + action.user + "/exercisetypes/" + action.payload.itemId + "/";
         putJSONFetch(editExerciseTypeUrl, action.payload)
           .then((res) => {
             return res.json();
@@ -259,7 +259,7 @@ export const AppContextProvider = (props: ProviderProps) => {
         break;
 
       case "getAllEquipmentTypes":
-        getJSONFetch("http://192.168.0.186:8000/webapp/equipmenttypes/", action.payload)
+        getJSONFetch("http://127.0.0.1:8000/webapp/equipmenttypes/", action.payload)
           .then((res) => {
             return res.json();
           })
@@ -282,7 +282,7 @@ export const AppContextProvider = (props: ProviderProps) => {
           );
         break;
         case "createEquipmentType":
-          const createEquipmentTypeUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/equipmenttypes/";
+          const createEquipmentTypeUrl = "http://127.0.0.1:8000/webapp/users/" + action.user + "/equipmenttypes/";
           postJSONFetch(createEquipmentTypeUrl, action.payload)
             .then((res) => {
               return res.json();
@@ -301,7 +301,7 @@ export const AppContextProvider = (props: ProviderProps) => {
           break;
       case "deleteEquipmentType":
         const deleteEquipmentTypeUrl =
-          "http://192.168.0.186:8000/webapp/users/" + action.user + "/equipmenttypes/" + action.payload.itemId + "/";
+          "http://127.0.0.1:8000/webapp/users/" + action.user + "/equipmenttypes/" + action.payload.itemId + "/";
         deleteJSONFetch(deleteEquipmentTypeUrl, action.payload)
           .then((res) => {
             return res.json();
@@ -320,7 +320,7 @@ export const AppContextProvider = (props: ProviderProps) => {
         break;
       case "editEquipmentType":
         const editEquipmentTypeUrl =
-          "http://192.168.0.186:8000/webapp/users/" + action.user + "/equipmenttypes/" + action.payload.itemId + "/";
+          "http://127.0.0.1:8000/webapp/users/" + action.user + "/equipmenttypes/" + action.payload.itemId + "/";
         putJSONFetch(editEquipmentTypeUrl, action.payload)
           .then((res) => {
             return res.json();
@@ -338,7 +338,7 @@ export const AppContextProvider = (props: ProviderProps) => {
           );
         break;
       case "getAllExercises":
-        const exercisesUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercises/";
+        const exercisesUrl = "http://127.0.0.1:8000/webapp/users/" + action.user + "/exercises/";
         getJSONFetch(exercisesUrl, action.payload)
           .then((res) => {
             return res.json();
@@ -353,7 +353,7 @@ export const AppContextProvider = (props: ProviderProps) => {
           );
         break;
       case "createExercise":
-        const createExerciseUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercises/";
+        const createExerciseUrl = "http://127.0.0.1:8000/webapp/users/" + action.user + "/exercises/";
         postJSONFetch(createExerciseUrl, action.payload)
           .then((res) => {
             return res.json();
@@ -372,7 +372,7 @@ export const AppContextProvider = (props: ProviderProps) => {
           );
         break;
         case "editExercise":
-          const editExerciseUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercises/" + action.payload.itemId + "/";
+          const editExerciseUrl = "http://127.0.0.1:8000/webapp/users/" + action.user + "/exercises/" + action.payload.itemId + "/";
           putJSONFetch(editExerciseUrl, action.payload)
             .then((res) => {
               return res.json();
@@ -392,7 +392,7 @@ export const AppContextProvider = (props: ProviderProps) => {
           break;
       case "deleteExercise":
         const deleteExerciseUrl =
-          "http://192.168.0.186:8000/webapp/users/" + action.user + "/exercises/" + action.payload.itemId + "/";
+          "http://127.0.0.1:8000/webapp/users/" + action.user + "/exercises/" + action.payload.itemId + "/";
         deleteJSONFetch(deleteExerciseUrl, action.payload)
           .then((res) => {
             return res.json();
@@ -411,7 +411,7 @@ export const AppContextProvider = (props: ProviderProps) => {
           );
         break;
       case "getAllWorkouts":
-        const workoutsUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/workouts/";
+        const workoutsUrl = "http://127.0.0.1:8000/webapp/users/" + action.user + "/workouts/";
         getJSONFetch(workoutsUrl, action.payload)
           .then((res) => {
             return res.json();
@@ -426,7 +426,7 @@ export const AppContextProvider = (props: ProviderProps) => {
           );
         break;
       case "getAllBlocks":
-        const blocksUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/blocks/";
+        const blocksUrl = "http://127.0.0.1:8000/webapp/users/" + action.user + "/blocks/";
         getJSONFetch(blocksUrl, action.payload)
           .then((res) => {
             return res.json();
@@ -441,7 +441,7 @@ export const AppContextProvider = (props: ProviderProps) => {
           );
         break;
       case "getAllSessions":
-        const sessionsUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/sessions/";
+        const sessionsUrl = "http://127.0.0.1:8000/webapp/users/" + action.user + "/sessions/";
         getJSONFetch(sessionsUrl, action.payload)
           .then((res) => {
             return res.json();
@@ -456,7 +456,7 @@ export const AppContextProvider = (props: ProviderProps) => {
           );
         break;
         case "createSession":
-          const createSessionUrl = "http://192.168.0.186:8000/webapp/users/" + action.user + "/sessions/";
+          const createSessionUrl = "http://127.0.0.1:8000/webapp/users/" + action.user + "/sessions/";
           postJSONFetch(createSessionUrl, action.payload)
             .then((res) => {
               return res.json();
@@ -476,7 +476,7 @@ export const AppContextProvider = (props: ProviderProps) => {
           break;
           case "deleteSession":
             const deleteSessionUrl =
-              "http://192.168.0.186:8000/webapp/users/" + action.user + "/sessions/" + action.payload.itemId + "/";
+              "http://127.0.0.1:8000/webapp/users/" + action.user + "/sessions/" + action.payload.itemId + "/";
             deleteJSONFetch(deleteSessionUrl, action.payload)
               .then((res) => {
                 return res.json();
