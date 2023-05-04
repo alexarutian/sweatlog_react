@@ -133,7 +133,7 @@ const Agenda = () => {
             Add Session
           </CustomText>
         </CustomButton>
-        <ScrollView style={{ width: "100%", paddingBottom: 20 }}>
+        <ScrollView contentContainerStyle={universalStyles.centeredScrollView} style={{ width: "100%", paddingBottom: 20, paddingTop: 10}}>
           {agendaDates &&
             agendaDates.map((date: string) => {
               return (
@@ -154,7 +154,7 @@ const Agenda = () => {
                               justifyContent: "space-between",
                             }}
                           >
-                            <CustomText>{session.workout.name}</CustomText>
+                            <CustomText style={{width: "65%"}}>{session.workout.name}</CustomText>
                             <CustomButton
                               onPress={() => {
                                 alert("starting " + session.workout.name);

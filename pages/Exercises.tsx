@@ -14,7 +14,7 @@ const Exercises = () => {
   const { state, dispatch } = React.useContext(AppStore);
 
   const [selectedExercise, setSelectedExercise] = React.useState<Exercise>();
-  const [isEditingExercise, setIsEditingExercise] = React.useState(false)
+  const [isEditingExercise, setIsEditingExercise] = React.useState(false);
 
   // sets initial value to detailed exercise view
   useEffect(() => {
@@ -34,11 +34,24 @@ const Exercises = () => {
   };
 
   const selectedExerciseTitle = (
-    <View style={{ flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-start", padding: 5 }}>
+    <View
+      style={{
+        flexDirection: "column",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+        padding: 5,
+      }}
+    >
       <CustomText bold style={{ textTransform: "uppercase", padding: 5 }}>
         {selectedExercise?.name || "TITLE"}
       </CustomText>
-      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+        }}
+      >
         <View
           style={{
             height: 21,
@@ -77,7 +90,7 @@ const Exercises = () => {
 
   const selectedExerciseDetails = [
     <View style={{ minHeight: 30, padding: 5 }}>
-      <CustomText  italic>
+      <CustomText italic>
         {selectedExercise?.description || "No description yet..."}
       </CustomText>
     </View>,
@@ -101,14 +114,18 @@ const Exercises = () => {
         iconSize={34}
         style={{ padding: 5, marginHorizontal: 5 }}
       />
-      <Pressable onPress={() => {setIsEditingExercise(true)}}>
-      <CustomIcon
-        name="edit"
-        iconProvider="MaterialIcons"
-        color={colors.transparentGreenTheme}
-        iconSize={30}
-        style={{ padding: 5, marginHorizontal: 5 }}
-      />
+      <Pressable
+        onPress={() => {
+          setIsEditingExercise(true);
+        }}
+      >
+        <CustomIcon
+          name="edit"
+          iconProvider="MaterialIcons"
+          color={colors.transparentGreenTheme}
+          iconSize={30}
+          style={{ padding: 5, marginHorizontal: 5 }}
+        />
       </Pressable>
       <Pressable onPress={handleDelete}>
         <CustomIcon
@@ -122,29 +139,40 @@ const Exercises = () => {
     </View>,
   ];
 
-
   const [isAddingExercise, setIsAddingExercise] = React.useState(false);
 
-  
-  const [name, setName] = React.useState(isAddingExercise ? "" : selectedExercise?.name);
-  const [description, setDescription] = React.useState(isAddingExercise ? "" : selectedExercise?.description);
-  const [selectedExerciseType, setSelectedExerciseType] = React.useState<ExerciseType>();
-  const [selectedEquipmentType, setSelectedEquipmentType] = React.useState<EquipmentType>();
-  const [isExerciseTypeDropdownOpen, setIsExerciseTypeDropdownOpen] = React.useState(false);
-  const [isEquipmentTypeDropdownOpen, setIsEquipmentTypeDropdownOpen] = React.useState(false);
+  const [name, setName] = React.useState(
+    isAddingExercise ? "" : selectedExercise?.name
+  );
+  const [description, setDescription] = React.useState(
+    isAddingExercise ? "" : selectedExercise?.description
+  );
+  const [selectedExerciseType, setSelectedExerciseType] =
+    React.useState<ExerciseType>();
+  const [selectedEquipmentType, setSelectedEquipmentType] =
+    React.useState<EquipmentType>();
+  const [isExerciseTypeDropdownOpen, setIsExerciseTypeDropdownOpen] =
+    React.useState(false);
+  const [isEquipmentTypeDropdownOpen, setIsEquipmentTypeDropdownOpen] =
+    React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
 
   useEffect(() => {
     if (isEditingExercise) {
-      setSelectedExerciseType(selectedExercise?.exercise_type)
-      setSelectedEquipmentType(selectedExercise?.equipment_type)  
+      setSelectedExerciseType(selectedExercise?.exercise_type);
+      setSelectedEquipmentType(selectedExercise?.equipment_type);
     }
     if (isAddingExercise) {
-      setSelectedExerciseType(undefined)
-      setSelectedEquipmentType(undefined)
-
+      setSelectedExerciseType(undefined);
+      setSelectedEquipmentType(undefined);
     }
-  }, [isEditingExercise, isAddingExercise, selectedExercise, setSelectedEquipmentType, setSelectedExerciseType])
+  }, [
+    isEditingExercise,
+    isAddingExercise,
+    selectedExercise,
+    setSelectedEquipmentType,
+    setSelectedExerciseType,
+  ]);
 
   const submitCreateExercise = () => {
     if (!name) {
@@ -166,51 +194,84 @@ const Exercises = () => {
   };
 
   const submitEditExercise = () => {
-    let payload = {user_token: state.userToken, itemId: selectedExercise?.id };
+    let payload = { user_token: state.userToken, itemId: selectedExercise?.id };
     if (name !== selectedExercise?.name) {
-      payload.name = name
-    } 
+      payload.name = name;
+    }
     if (description !== selectedExercise?.description) {
-      payload.description = description
+      payload.description = description;
     }
     // always send exercise_type_id and equipment_type_id = if none, then will not attach
-      payload.exercise_type_id = selectedExerciseType?.id;
-      payload.equipment_type_id = selectedEquipmentType?.id;
-    dispatch({name: "editExercise", payload: payload, user: state.userId});
-    setIsEditingExercise(false)
-  }
+    payload.exercise_type_id = selectedExerciseType?.id;
+    payload.equipment_type_id = selectedEquipmentType?.id;
+    dispatch({ name: "editExercise", payload: payload, user: state.userId });
+    setIsEditingExercise(false);
+  };
 
   const addEditExerciseBody = (
     <>
       <View
-        style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}
+        style={{
+          height: 45,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          padding: 10,
+        }}
       >
-        <CustomInput onChangeText={setName} defaultValue={isAddingExercise ? "" : selectedExercise?.name} placeholder={isAddingExercise ? "name" : selectedExercise?.name} style={{ marginTop: 5 }} />
+        <CustomInput
+          onChangeText={setName}
+          defaultValue={isAddingExercise ? "" : selectedExercise?.name}
+          placeholder={isAddingExercise ? "name" : selectedExercise?.name}
+          style={{ marginTop: 5, width: "90%", maxWidth: 500 }}
+        />
       </View>
       ,
       <View
-        style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}
+        style={{
+          height: 45,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          padding: 10,
+        }}
       >
         <CustomInput
           onChangeText={setDescription}
           defaultValue={isAddingExercise ? "" : selectedExercise?.description}
           // value={description}
-          placeholder={(isAddingExercise || !selectedExercise?.description) ? "description": selectedExercise?.description}
-          style={{ marginTop: 5 }}
+          placeholder={
+            isAddingExercise || !selectedExercise?.description
+              ? "description"
+              : selectedExercise?.description
+          }
+          style={{ marginTop: 5, width: "90%", maxWidth: 500 }}
         />
       </View>
       <View
-        style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}
+        style={{
+          height: 45,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          padding: 10,
+        }}
       >
         <CustomButton
           buttonColor={colors.lightGrayTheme}
           style={{ width: 200, justifyContent: "space-between", padding: 5 }}
           onPress={() => {
             setIsExerciseTypeDropdownOpen(!isExerciseTypeDropdownOpen);
-            isEquipmentTypeDropdownOpen ? setIsEquipmentTypeDropdownOpen(false) : null;
+            isEquipmentTypeDropdownOpen
+              ? setIsEquipmentTypeDropdownOpen(false)
+              : null;
           }}
         >
-          <CustomText>{!selectedExerciseType ? "Select Exercise Type" : selectedExerciseType.name}</CustomText>
+          <CustomText>
+            {!selectedExerciseType
+              ? "Select Exercise Type"
+              : selectedExerciseType.name}
+          </CustomText>
           <CustomIcon
             iconProvider="Feather"
             name={isExerciseTypeDropdownOpen ? "chevrons-up" : "chevrons-down"}
@@ -219,9 +280,18 @@ const Exercises = () => {
           />
         </CustomButton>
         {isExerciseTypeDropdownOpen && (
-          <View>
+          <View style={{ backgroundColor: "red" }}>
             {state.exerciseTypeLookup.list?.length > 0 && (
               <>
+                <Pressable
+                  onPress={() => {
+                    setSelectedExerciseType(undefined);
+                    setIsExerciseTypeDropdownOpen(false);
+                  }}
+                  style={{ height: 25 }}
+                >
+                  <CustomText>None</CustomText>
+                </Pressable>
                 {state.exerciseTypeLookup.list.map((et: ExerciseType) => (
                   <Pressable
                     onPress={() => {
@@ -240,17 +310,29 @@ const Exercises = () => {
         )}
       </View>
       <View
-        style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}
+        style={{
+          height: 45,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          padding: 10,
+        }}
       >
         <CustomButton
           buttonColor={colors.lightGrayTheme}
           style={{ width: 200, justifyContent: "space-between", padding: 5 }}
           onPress={() => {
             setIsEquipmentTypeDropdownOpen(!isEquipmentTypeDropdownOpen);
-            isExerciseTypeDropdownOpen ? setIsExerciseTypeDropdownOpen(false) : null;
+            isExerciseTypeDropdownOpen
+              ? setIsExerciseTypeDropdownOpen(false)
+              : null;
           }}
         >
-          <CustomText>{!selectedEquipmentType ? "Select Equipment Type" : selectedEquipmentType.name}</CustomText>
+          <CustomText>
+            {!selectedEquipmentType
+              ? "Select Equipment Type"
+              : selectedEquipmentType.name}
+          </CustomText>
           <CustomIcon
             iconProvider="Feather"
             name={isEquipmentTypeDropdownOpen ? "chevrons-up" : "chevrons-down"}
@@ -259,9 +341,19 @@ const Exercises = () => {
           />
         </CustomButton>
         {isEquipmentTypeDropdownOpen && (
-          <View>
+          <View style={{ backgroundColor: "red" }}>
             {state.equipmentTypeLookup.list?.length > 0 && (
               <>
+                <Pressable
+                  onPress={() => {
+                    setSelectedEquipmentType(undefined);
+                    setIsEquipmentTypeDropdownOpen(false);
+                  }}
+                  style={{ height: 25 }}
+                >
+                  <CustomText>None</CustomText>
+                </Pressable>
+
                 {state.equipmentTypeLookup.list.map((et: EquipmentType) => (
                   <Pressable
                     onPress={() => {
@@ -279,11 +371,20 @@ const Exercises = () => {
         )}
       </View>
       <View
-        style={{ height: 45, flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10 }}
+        style={{
+          height: 45,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          padding: 10,
+        }}
       >
-        <CustomButton onPress={isAddingExercise ? submitCreateExercise : submitEditExercise} style={{ width: 200 }}>
+        <CustomButton
+          onPress={isAddingExercise ? submitCreateExercise : submitEditExercise}
+          style={{ width: 200 }}
+        >
           <CustomText bold color="white">
-            {isAddingExercise ? "Create exercise" : "Edit exercise"}
+            {isAddingExercise ? "Create exercise" : "Save changes"}
           </CustomText>
         </CustomButton>
       </View>
@@ -308,28 +409,28 @@ const Exercises = () => {
         </CustomButton>
         <Gap height={20} />
         <View style={styles.exerciseList}>
-        <ScrollView style={{width: "100%", paddingBottom: 20}}>
-          {state.exerciseLookup.list.map((exercise: Exercise) => (
-            <View key={exercise.name} style={styles.exerciseItem}>
-              <Pressable
-                onPress={() => {
-                  if (exercise == selectedExercise) {
-                    setSelectedExercise(undefined);
-                  } else {
-                    setSelectedExercise(exercise);
-                  }
-                }}
-              >
-                <CustomText
-                  color={colors.darkGreenTheme}
-                  bold={exercise == selectedExercise ? true : false}
-                  fontSize={exercise == selectedExercise ? 18 : 16}
+          <ScrollView style={{ width: "100%", paddingBottom: 20 }}>
+            {state.exerciseLookup.list.map((exercise: Exercise) => (
+              <View key={exercise.name} style={styles.exerciseItem}>
+                <Pressable
+                  onPress={() => {
+                    if (exercise == selectedExercise) {
+                      setSelectedExercise(undefined);
+                    } else {
+                      setSelectedExercise(exercise);
+                    }
+                  }}
                 >
-                  {exercise.name}
-                </CustomText>
-              </Pressable>
-            </View>
-          ))}
+                  <CustomText
+                    color={colors.darkGreenTheme}
+                    bold={exercise == selectedExercise ? true : false}
+                    fontSize={exercise == selectedExercise ? 18 : 16}
+                  >
+                    {exercise.name}
+                  </CustomText>
+                </Pressable>
+              </View>
+            ))}
           </ScrollView>
         </View>
         <IndexCard
@@ -340,12 +441,18 @@ const Exercises = () => {
         {(isAddingExercise || isEditingExercise) && (
           <IndexCard
             cardStyle={{ position: "absolute", height: "100%", width: "100%" }}
-            title={isAddingExercise ? "Add an exercise" : "Edit " + selectedExercise?.name}
+            title={
+              isAddingExercise
+                ? "Add an exercise"
+                : "Edit " + selectedExercise?.name
+            }
             titleStyle={{ height: 45, fontSize: 20 }}
             body={addEditExerciseBody}
             closeButton
             closeButtonOnPress={() => {
-              isAddingExercise ? setIsAddingExercise(false): setIsEditingExercise(false);
+              isAddingExercise
+                ? setIsAddingExercise(false)
+                : setIsEditingExercise(false);
             }}
             noBodyLines
           />
@@ -357,7 +464,12 @@ const Exercises = () => {
 
 const styles = StyleSheet.create({
   exerciseList: { width: "100%", alignItems: "flex-start" },
-  exerciseItem: { flexDirection: "column", justifyContent: "flex-start", width: "100%", margin: 10 },
+  exerciseItem: {
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    width: "100%",
+    margin: 10,
+  },
   dividingLine: { width: "100%", height: 1, backgroundColor: "gray" },
 });
 

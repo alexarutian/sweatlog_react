@@ -48,4 +48,9 @@ export const universalStyles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#F7F7F7",
   },
+  centeredScrollView: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
 });

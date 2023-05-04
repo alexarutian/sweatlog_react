@@ -13,8 +13,8 @@ const Workouts = () => {
   if (state.workoutLoaded) return (
     <View style={universalStyles.page}>
       <Gap height={20} />
-      <View style={{ width: "100%", alignItems: "center" }}>
-      <ScrollView style={{width: "100%", paddingBottom: 20}}>
+      <View style={{ width: "100%",  alignItems: "center"}}>
+      <ScrollView style={{width: "100%", paddingBottom: 20}} contentContainerStyle={universalStyles.centeredScrollView}>
         {state.workoutLookup.list.map((workout: Workout) => (
           <React.Fragment key={workout.name}>
             <IndexCard
