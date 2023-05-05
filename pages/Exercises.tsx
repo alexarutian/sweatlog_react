@@ -139,6 +139,23 @@ const Exercises = () => {
     </View>,
   ];
 
+  type CreateExercisePayload = {
+    name: string;
+    user_token: string | null;
+    description?: string;
+    exercise_type_id?: number;
+    equipment_type_id?: number;
+  }
+  
+  type EditExercisePayload = {
+    name?: string,
+    itemId: number | undefined,
+    user_token: string | null;
+    description?: string;
+    exercise_type_id?: number;
+    equipment_type_id?: number;
+  }
+
   const [isAddingExercise, setIsAddingExercise] = React.useState(false);
 
   const [name, setName] = React.useState(
@@ -179,7 +196,7 @@ const Exercises = () => {
       setErrorMessage("name is required");
       return;
     }
-    let payload = { name: name, user_token: state.userToken };
+    let payload: CreateExercisePayload = { name: name, user_token: state.userToken };
     if (description !== undefined) {
       payload.description = description;
     }
@@ -194,7 +211,7 @@ const Exercises = () => {
   };
 
   const submitEditExercise = () => {
-    let payload = { user_token: state.userToken, itemId: selectedExercise?.id };
+    let payload: EditExercisePayload = { user_token: state.userToken, itemId: selectedExercise?.id };
     if (name !== selectedExercise?.name) {
       payload.name = name;
     }
