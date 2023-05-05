@@ -426,7 +426,7 @@ const Exercises = () => {
         </CustomButton>
         <Gap height={20} />
         <View style={styles.exerciseList}>
-          <ScrollView style={{ width: "100%", paddingBottom: 20 }}>
+          <ScrollView style={{ width: "100%", paddingBottom: 20, height: "45vh" }}>
             {state.exerciseLookup.list.map((exercise: Exercise) => (
               <View key={exercise.name} style={styles.exerciseItem}>
                 <Pressable
